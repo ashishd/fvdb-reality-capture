@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1768649142205,
+  "lastUpdate": 1770205795513,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -3328,6 +3328,133 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00036539023118929524",
             "extra": "mean: 25.352917139523626 msec\nrounds: 43"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "fce7d53fe21b5e6b7adde9ecc021e2c81a47f57a",
+          "message": "Fix nightly benchmark failures due to git clean of output file (#234)\n\nPreviously I added a git clean step in the nightly benchmark workflow\nwhich unintentially deletes the output of the benchmark before uploading\nit.\n\nThis fixes that and also eliminates some deprecation warnings when\nrunning the benchmark.\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>",
+          "timestamp": "2026-02-03T20:59:32Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/fce7d53fe21b5e6b7adde9ecc021e2c81a47f57a"
+        },
+        "date": 1770205795031,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00000664]",
+            "value": 2309.3128610624544,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00001753955527474208",
+            "extra": "mean: 433.02924296707306 usec\nrounds: 2844"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00000664]",
+            "value": 690.5638304968577,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00003313043184861858",
+            "extra": "mean: 1.4480920601944998 msec\nrounds: 814"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00000664]",
+            "value": 525.2862424769951,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00002300296046092781",
+            "extra": "mean: 1.9037239492214475 msec\nrounds: 512"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00000664]",
+            "value": 189.49360371280827,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0000510277889977874",
+            "extra": "mean: 5.277222979597637 msec\nrounds: 392"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00006640]",
+            "value": 111.38382210457286,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00004243192350329256",
+            "extra": "mean: 8.977964493453534 msec\nrounds: 229"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00006640]",
+            "value": 125.03405971317501,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00013981292218732835",
+            "extra": "mean: 7.997820772147803 msec\nrounds: 158"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00006640]",
+            "value": 61.25002702033131,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00017212248087452006",
+            "extra": "mean: 16.3265234098274 msec\nrounds: 61"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00006640]",
+            "value": 25.009435324759835,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00032314965991541713",
+            "extra": "mean: 39.98490917585733 msec\nrounds: 580"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00016600]",
+            "value": 73.62532464724465,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000054583366007715586",
+            "extra": "mean: 13.58228306348696 msec\nrounds: 189"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00016600]",
+            "value": 77.417948252662,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00022010472539502656",
+            "extra": "mean: 12.91690134613733 msec\nrounds: 104"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00016600]",
+            "value": 39.164471969607824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003299846072651333",
+            "extra": "mean: 25.533345650006822 msec\nrounds: 40"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00016600]",
+            "value": 18.422569726060946,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007276778447926003",
+            "extra": "mean: 54.28124386932728 msec\nrounds: 551"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00000664-mcmc]",
+            "value": 511.8528809843958,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006315754823428129",
+            "extra": "mean: 1.953686375813299 msec\nrounds: 620"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00006640-mcmc]",
+            "value": 60.37150787775045,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00023351060080823585",
+            "extra": "mean: 16.564105074614908 msec\nrounds: 67"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00016600-mcmc]",
+            "value": 39.13612494164906,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00043479863848972655",
+            "extra": "mean: 25.55183993026836 msec\nrounds: 43"
           }
         ]
       }
