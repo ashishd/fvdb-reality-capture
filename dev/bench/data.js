@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1770638030659,
+  "lastUpdate": 1770724576409,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -3709,6 +3709,133 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0004027957035594563",
             "extra": "mean: 24.84985899999711 msec\nrounds: 44"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Jonathan Swartz",
+            "username": "swahtz",
+            "email": "jonathan@jswartz.info"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "873560ffb5954376f7984dee9589204f374ca6b4",
+          "message": "`SfmCameraMetadata` distortion downsampling fix (#228)\n\nThis PR fixes a few gotchyas in in the interaction between\n`SfmCameraMetadata` and the Downsample transform when it comes to\ncameras/images that have distortion/undistortion.\n\n1. `state_dict` now serializes the Metadata with the original\n(potentially distorted) image dimensions and camera intrinsics so that\nwhen it is deserialized, the undistortion process is applied correctly.\nPreviously, the resolution and camera intrinsics of the _undistorted_\nimage were serialized and then, on creation, undistortion could\npotentially be double applied. Serialization/deserialization is now\nalways done in reference to the original parameters, the ones that match\nthe original image on disk.\n2. Downsampling of images was done to the original image on disk, but\nresizing of camera/image metadata was applied to the resolution/camera\nintrinsics that was the result of the undistortion, leading to a\nmismatch. Resizing is now done on the original camera intrinsics and\nresolution (which are stored in `SfmCameraMetadata` as members now) so\nthat they line up correctly with downsampling.\n3. When undistorting, the projection matrix principal point was not\nbeing shifted by the ROI offset, this is fixed. Usually it's just 0\nanyway, so this might not have an effect on most examples.\n\n\n---------\n\nSigned-off-by: Jonathan Swartz <jonathan@jswartz.info>",
+          "timestamp": "2026-02-09T00:44:52Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/873560ffb5954376f7984dee9589204f374ca6b4"
+        },
+        "date": 1770724575937,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00000664]",
+            "value": 2399.860470034619,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000014497256263066354",
+            "extra": "mean: 416.6908920273913 usec\nrounds: 2797"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00000664]",
+            "value": 710.5183717878762,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000034396846409898476",
+            "extra": "mean: 1.4074231430268322 msec\nrounds: 818"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00000664]",
+            "value": 542.903185267565,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00002370224139413189",
+            "extra": "mean: 1.8419490383117918 msec\nrounds: 522"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00000664]",
+            "value": 195.18188944864403,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00003411593842083132",
+            "extra": "mean: 5.123426168405437 msec\nrounds: 481"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00006640]",
+            "value": 112.2436650846484,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000044025948459825",
+            "extra": "mean: 8.909188765761092 msec\nrounds: 222"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00006640]",
+            "value": 129.0096490321898,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00013886896583922948",
+            "extra": "mean: 7.751358192986676 msec\nrounds: 171"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00006640]",
+            "value": 62.74258805453077,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00015555749223573675",
+            "extra": "mean: 15.938137571419292 msec\nrounds: 63"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00006640]",
+            "value": 25.65151081212469,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0002666737900673859",
+            "extra": "mean: 38.98405857355311 msec\nrounds: 605"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00016600]",
+            "value": 73.71426980889368,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007767581780197385",
+            "extra": "mean: 13.565894399992406 msec\nrounds: 185"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00016600]",
+            "value": 80.67444308589212,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00022383199472670708",
+            "extra": "mean: 12.395499265304185 msec\nrounds: 98"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00016600]",
+            "value": 40.18836762326916,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00038742721795712476",
+            "extra": "mean: 24.88282204876114 msec\nrounds: 41"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00016600]",
+            "value": 18.977768989312416,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008354002548216218",
+            "extra": "mean: 52.69323283275096 msec\nrounds: 574"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00000664-mcmc]",
+            "value": 530.3378651676582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00005911756800301701",
+            "extra": "mean: 1.8855904239156398 msec\nrounds: 644"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00006640-mcmc]",
+            "value": 62.34612940877647,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00021933071742081893",
+            "extra": "mean: 16.03948808824097 msec\nrounds: 68"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00016600-mcmc]",
+            "value": 40.27188612039737,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003819077798891293",
+            "extra": "mean: 24.831218409050592 msec\nrounds: 44"
           }
         ]
       }
