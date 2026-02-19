@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771539777735,
+  "lastUpdate": 1771539779435,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -4652,6 +4652,75 @@ window.BENCHMARK_DATA = {
             "name": "garden/fvdb_default - SSIM",
             "value": 0.8656,
             "unit": ""
+          }
+        ]
+      }
+    ],
+    "fvdb-reality-capture Comparative Performance": [
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "b26c771017de26e5341d960e893626127b64e17b",
+          "message": "Add nightly comparative benchmarks for fVDB vs GSplat (fixes #14)\n\nRun comparative benchmarks (fVDB vs GSplat) nightly to catch quality and\nperformance regressions. Uses a separate EC2 GPU runner running in parallel\nwith existing unit benchmarks.\n\nKey changes:\n- Add comparative benchmark job to nightly.yml with benchmark-action reporting\n  for quality (PSNR, SSIM) and performance (training time, GPU memory)\n- Unify benchmark_environment.yml with dev_environment.yml versions; use it\n  for both unit and comparative benchmark jobs\n- Add nightly_matrix.yml: 3 scenes x 4 configs at 50% training epochs\n- Add format_for_gh_benchmark.py to convert results to benchmark-action format\n- Add run_nightly_local.sh to mirror CI setup locally for development\n- Fix repo root detection for CI container mount path\n- Make git rev-parse resilient to worktree/missing-git scenarios\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Cursor <cursoragent@cursor.com>",
+          "timestamp": "2026-02-19T21:07:56Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/b26c771017de26e5341d960e893626127b64e17b"
+        },
+        "date": 1771539778997,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 958.05,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.5835,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 4.4197,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 535.88,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.6456,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 6.6011,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1058.81,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.6812,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 4.4351,
+            "unit": "seconds"
           }
         ]
       }
