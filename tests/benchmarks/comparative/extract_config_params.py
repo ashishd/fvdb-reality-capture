@@ -32,6 +32,7 @@ def count_dataset_images(data_dir: str) -> int:
         ]
         if env
     ] + [
+        Path("/workspace/fvdb-reality-capture"),
         Path("/workspace/openvdb/fvdb-reality-capture"),
         Path("/workspace/openvdb/fvdb"),
         Path("/workspace/fvdb"),

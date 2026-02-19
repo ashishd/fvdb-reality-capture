@@ -1,0 +1,138 @@
+# Nightly comparative benchmark matrix: 3 representative scenes at 50% training
+# duration. Covers outdoor (garden, bicycle) and indoor (bonsai) with both
+# default and MCMC optimizers for fVDB and GSplat.
+#
+# The base opt_configs use max_epochs: 200 and refine_stop_epoch: 100 (50% of
+# training). We halve both here so the refinement/training ratio stays the same.
+name: nightly_benchmark
+
+paths:
+  gsplat_base: /workspace/gsplat/examples
+  data_base: /workspace/data
+
+datasets:
+- name: garden
+  path: 360_v2/garden
+- name: bonsai
+  path: 360_v2/bonsai
+- name: bicycle
+  path: 360_v2/bicycle
+
+opt_configs:
+  fvdb_default:
+    path: opt_configs/fvdb_default.yml
+  fvdb_mcmc:
+    path: opt_configs/fvdb_mcmc_default.yml
+  gsplat_default:
+    path: opt_configs/gsplat_default.yml
+  gsplat_mcmc:
+    path: opt_configs/gsplat_mcmc_default.yml
+
+runs:
+  # --- garden (outdoor) ---
+  - dataset: garden
+    opt_config: fvdb_default
+    overrides:
+      fvdb:
+        reconstruction_config:
+          max_epochs: 100
+          refine_stop_epoch: 50
+  - dataset: garden
+    opt_config: fvdb_mcmc
+    overrides:
+      fvdb:
+        reconstruction_config:
+          max_epochs: 100
+          refine_stop_epoch: 50
+          max_gaussians: 5500000
+  - dataset: garden
+    opt_config: gsplat_default
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 100
+            refine_stop_epoch: 50
+  - dataset: garden
+    opt_config: gsplat_mcmc
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 100
+            refine_stop_epoch: 50
+        cli_args:
+          - --strategy.cap_max
+          - "5500000"
+
+  # --- bonsai (indoor) ---
+  - dataset: bonsai
+    opt_config: fvdb_default
+    overrides:
+      fvdb:
+        reconstruction_config:
+          max_epochs: 100
+          refine_stop_epoch: 50
+  - dataset: bonsai
+    opt_config: fvdb_mcmc
+    overrides:
+      fvdb:
+        reconstruction_config:
+          max_epochs: 100
+          refine_stop_epoch: 50
+          max_gaussians: 1200000
+  - dataset: bonsai
+    opt_config: gsplat_default
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 100
+            refine_stop_epoch: 50
+  - dataset: bonsai
+    opt_config: gsplat_mcmc
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 100
+            refine_stop_epoch: 50
+        cli_args:
+          - --strategy.cap_max
+          - "1200000"
+
+  # --- bicycle (outdoor, complex) ---
+  - dataset: bicycle
+    opt_config: fvdb_default
+    overrides:
+      fvdb:
+        reconstruction_config:
+          max_epochs: 100
+          refine_stop_epoch: 50
+  - dataset: bicycle
+    opt_config: fvdb_mcmc
+    overrides:
+      fvdb:
+        reconstruction_config:
+          max_epochs: 100
+          refine_stop_epoch: 50
+          max_gaussians: 5500000
+  - dataset: bicycle
+    opt_config: gsplat_default
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 100
+            refine_stop_epoch: 50
+  - dataset: bicycle
+    opt_config: gsplat_mcmc
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 100
+            refine_stop_epoch: 50
+        cli_args:
+          - --strategy.cap_max
+          - "5500000"

@@ -85,9 +85,19 @@ def find_all_checkpoint_files(checkpoints_dir: pathlib.Path) -> List[str]:
     return checkpoint_paths
 
 
+def _get_commit_hash() -> str:
+    """Return the current git commit hash, or a timestamp-based fallback if unavailable."""
+    try:
+        return subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL).decode("utf-8").strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        import datetime
+
+        return "nogit_" + datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S")
+
+
 def get_run_name(results_path: pathlib.Path) -> str:
     """Get a unique run name for the current git commit hash."""
-    commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("utf-8").strip()
+    commit_hash = _get_commit_hash()
     # Generate a run name based on the commit hash, appending an index if the directory exists
     base_run_name = f"run_{commit_hash}"
     run_name = base_run_name
@@ -114,7 +124,7 @@ def main(
     data_base_path = config["paths"]["data_base"]
 
     # Get the current git commit hash of the repository
-    commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("utf-8").strip()
+    commit_hash = _get_commit_hash()
     logger.info(f"Current git commit hash: {commit_hash}")
 
     # Extract configuration

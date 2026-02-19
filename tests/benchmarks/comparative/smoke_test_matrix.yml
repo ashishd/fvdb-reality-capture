@@ -1,0 +1,34 @@
+# Smoke test matrix: 1 scene, 2 configs, 5 epochs -- validates the full
+# pipeline (build, train, evaluate, format) in ~10 minutes instead of hours.
+name: smoke_test
+
+paths:
+  gsplat_base: /workspace/gsplat/examples
+  data_base: /workspace/data
+
+datasets:
+- name: garden
+  path: 360_v2/garden
+
+opt_configs:
+  fvdb_default:
+    path: opt_configs/fvdb_default.yml
+  gsplat_default:
+    path: opt_configs/gsplat_default.yml
+
+runs:
+  - dataset: garden
+    opt_config: fvdb_default
+    overrides:
+      fvdb:
+        reconstruction_config:
+          max_epochs: 5
+          refine_stop_epoch: 3
+  - dataset: garden
+    opt_config: gsplat_default
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 5
+            refine_stop_epoch: 3
