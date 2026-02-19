@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771537060619,
+  "lastUpdate": 1771539777735,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -4598,6 +4598,60 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0004006463706736836",
             "extra": "mean: 25.37314544188015 msec\nrounds: 43"
+          }
+        ]
+      }
+    ],
+    "fvdb-reality-capture Comparative Quality": [
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "b26c771017de26e5341d960e893626127b64e17b",
+          "message": "Add nightly comparative benchmarks for fVDB vs GSplat (fixes #14)\n\nRun comparative benchmarks (fVDB vs GSplat) nightly to catch quality and\nperformance regressions. Uses a separate EC2 GPU runner running in parallel\nwith existing unit benchmarks.\n\nKey changes:\n- Add comparative benchmark job to nightly.yml with benchmark-action reporting\n  for quality (PSNR, SSIM) and performance (training time, GPU memory)\n- Unify benchmark_environment.yml with dev_environment.yml versions; use it\n  for both unit and comparative benchmark jobs\n- Add nightly_matrix.yml: 3 scenes x 4 configs at 50% training epochs\n- Add format_for_gh_benchmark.py to convert results to benchmark-action format\n- Add run_nightly_local.sh to mirror CI setup locally for development\n- Fix repo root detection for CI container mount path\n- Make git rev-parse resilient to worktree/missing-git scenarios\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Cursor <cursoragent@cursor.com>",
+          "timestamp": "2026-02-19T21:07:56Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/b26c771017de26e5341d960e893626127b64e17b"
+        },
+        "date": 1771539777299,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.165,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7443,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.455,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.9562,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.68,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8656,
+            "unit": ""
           }
         ]
       }
