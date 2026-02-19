@@ -44,6 +44,7 @@ runs:
         reconstruction_config:
           max_epochs: 100
           refine_stop_epoch: 50
+        optimization_config:
           max_gaussians: 5500000
   - dataset: garden
     opt_config: gsplat_default
@@ -80,6 +81,7 @@ runs:
         reconstruction_config:
           max_epochs: 100
           refine_stop_epoch: 50
+        optimization_config:
           max_gaussians: 1200000
   - dataset: bonsai
     opt_config: gsplat_default
@@ -116,6 +118,7 @@ runs:
         reconstruction_config:
           max_epochs: 100
           refine_stop_epoch: 50
+        optimization_config:
           max_gaussians: 5500000
   - dataset: bicycle
     opt_config: gsplat_default
