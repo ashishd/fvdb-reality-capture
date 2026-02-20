@@ -494,8 +494,10 @@ jobs:
         run: |
           micromamba activate benchmark
           mkdir -p /workspace
+          GSPLAT_COMMIT="b60e917c95afc449c5be33a634f1f457e116ff5e"  # HEAD of main, includes DefaultStrategy opacity-reset fix (6e8c837)
           git clone https://github.com/nerfstudio-project/gsplat.git /workspace/gsplat
-          cd /workspace/gsplat && git submodule update --init --recursive
+          cd /workspace/gsplat && git checkout "${GSPLAT_COMMIT}" && git submodule update --init --recursive
+          echo "GSplat pinned to commit: $(git rev-parse HEAD)"
           archs=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader 2>/dev/null \
                   | awk NF | sort -u | sed 's/$/+PTX/')
           [ -z "$archs" ] && archs="8.9+PTX"

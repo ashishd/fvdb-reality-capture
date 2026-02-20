@@ -100,8 +100,10 @@ else
     echo "GSplat:               (will clone inside container)"
     GSPLAT_CLONE_CMD=$(cat <<'CLONE'
 echo '=== Cloning GSplat ==='
+GSPLAT_COMMIT="b60e917c95afc449c5be33a634f1f457e116ff5e"
 git clone https://github.com/nerfstudio-project/gsplat.git /workspace/gsplat
-cd /workspace/gsplat && git submodule update --init --recursive
+cd /workspace/gsplat && git checkout "${GSPLAT_COMMIT}" && git submodule update --init --recursive
+echo "GSplat pinned to commit: $(git rev-parse HEAD)"
 CLONE
 )
 fi

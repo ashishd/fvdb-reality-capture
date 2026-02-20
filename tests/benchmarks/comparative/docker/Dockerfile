@@ -50,11 +50,12 @@ RUN echo "conda activate benchmark" >> ~/.bashrc
 # Set working directory
 WORKDIR /workspace
 
-# Clone GSplat repository
-RUN git clone https://github.com/nerfstudio-project/gsplat.git gsplat
-
-## Initialize gsplat submodules (glm, etc.)
-RUN cd gsplat && git submodule update --init --recursive
+# Clone GSplat repository at a pinned commit for reproducibility.
+# b60e917 is HEAD of main, includes the DefaultStrategy opacity-reset fix (6e8c837).
+ARG GSPLAT_COMMIT=b60e917c95afc449c5be33a634f1f457e116ff5e
+RUN git clone https://github.com/nerfstudio-project/gsplat.git gsplat \
+    && cd gsplat && git checkout ${GSPLAT_COMMIT} && git submodule update --init --recursive \
+    && echo "GSplat pinned to: $(git rev-parse HEAD)"
 
 # Create directories for results
 RUN mkdir -p results/benchmark/summary

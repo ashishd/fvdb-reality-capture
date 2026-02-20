@@ -239,7 +239,8 @@ def run_gsplat_training(
             "1.0",
         ]
     )
-    if gsplat_mode == "default":
+    use_vanilla_strategy = opt_config.get("use_vanilla_strategy", False)
+    if gsplat_mode == "default" and not use_vanilla_strategy:
         cmd.extend(
             [
                 "--strategy.reset_every",
@@ -250,6 +251,8 @@ def run_gsplat_training(
                 "1",  # Disable 2D scale-based splitting to match FVDB behavior
             ]
         )
+    elif gsplat_mode == "default" and use_vanilla_strategy:
+        logging.info("Using vanilla GSplat default strategy (no custom strategy overrides)")
 
     # Add parameters from YAML config using the parameter mapping
     mapped_args = build_gsplat_cli_args(opt_config)

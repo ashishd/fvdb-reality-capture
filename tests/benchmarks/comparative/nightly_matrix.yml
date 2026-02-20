@@ -1,6 +1,13 @@
 # Nightly comparative benchmark matrix: 3 representative scenes at 50% training
 # duration. Covers outdoor (garden, bicycle) and indoor (bonsai) with both
-# default and MCMC optimizers for fVDB and GSplat.
+# default and MCMC optimizers for fVDB, and MCMC for GSplat.
+#
+# NOTE: gsplat_default (DefaultStrategy) is excluded because it produces
+# catastrophically bad results on L4 GPUs (PSNR ~12, LPIPS ~0.99) while
+# working fine on Ada GPUs (PSNR ~27). This appears to be a gsplat bug
+# specific to L4 / sm_89 — the training loss decreases normally but eval
+# renders are broken from step 1. gsplat MCMC is unaffected on L4.
+# See: https://github.com/nerfstudio-project/gsplat/issues/XXX (to be filed)
 #
 # The base opt_configs use max_epochs: 200 and refine_stop_epoch: 100 (50% of
 # training). We halve both here so the refinement/training ratio stays the same.
@@ -23,8 +30,6 @@ opt_configs:
     path: opt_configs/fvdb_default.yml
   fvdb_mcmc:
     path: opt_configs/fvdb_mcmc_default.yml
-  gsplat_default:
-    path: opt_configs/gsplat_default.yml
   gsplat_mcmc:
     path: opt_configs/gsplat_mcmc_default.yml
 
@@ -46,14 +51,6 @@ runs:
           refine_stop_epoch: 50
         optimization_config:
           max_gaussians: 5500000
-  - dataset: garden
-    opt_config: gsplat_default
-    overrides:
-      gsplat:
-        training:
-          config:
-            max_epochs: 100
-            refine_stop_epoch: 50
   - dataset: garden
     opt_config: gsplat_mcmc
     overrides:
@@ -84,14 +81,6 @@ runs:
         optimization_config:
           max_gaussians: 1200000
   - dataset: bonsai
-    opt_config: gsplat_default
-    overrides:
-      gsplat:
-        training:
-          config:
-            max_epochs: 100
-            refine_stop_epoch: 50
-  - dataset: bonsai
     opt_config: gsplat_mcmc
     overrides:
       gsplat:
@@ -120,14 +109,6 @@ runs:
           refine_stop_epoch: 50
         optimization_config:
           max_gaussians: 5500000
-  - dataset: bicycle
-    opt_config: gsplat_default
-    overrides:
-      gsplat:
-        training:
-          config:
-            max_epochs: 100
-            refine_stop_epoch: 50
   - dataset: bicycle
     opt_config: gsplat_mcmc
     overrides:
