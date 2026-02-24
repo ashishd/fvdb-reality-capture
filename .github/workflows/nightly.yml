@@ -580,6 +580,8 @@ jobs:
           name: comparative-benchmark-results-${{ github.run_id }}
           path: |
             tests/benchmarks/comparative/results/nightly_benchmark/summary/
+            tests/benchmarks/comparative/results/nightly_benchmark/*_training.png
+            tests/benchmarks/comparative/results/nightly_benchmark/*_comparison_report.json
             tests/benchmarks/comparative/results/nightly_benchmark/benchmark.log
           retention-days: 90
 

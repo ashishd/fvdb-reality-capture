@@ -1,12 +1,20 @@
 # Nightly comparative benchmark matrix: 3 representative scenes at 50% training
 # duration. Covers outdoor (garden, bicycle) and indoor (bonsai) with both
-# default and MCMC optimizers for fVDB, and MCMC for GSplat.
+# default and MCMC optimizers for fVDB.
 #
-# NOTE: gsplat_default (DefaultStrategy) is excluded because it produces
-# catastrophically bad results on L4 GPUs (PSNR ~12, LPIPS ~0.99) while
-# working fine on Ada GPUs (PSNR ~27). This appears to be a gsplat bug
-# specific to L4 / sm_89 — the training loss decreases normally but eval
-# renders are broken from step 1. gsplat MCMC is unaffected on L4.
+# NOTE: All gsplat configs are excluded from nightly L4 runs due to two issues:
+#
+# 1. gsplat_default (DefaultStrategy) produces catastrophically bad quality on
+#    L4 GPUs (PSNR ~12, LPIPS ~0.99) while working fine on Ada GPUs (PSNR ~27).
+#    Training loss decreases normally but eval renders are broken from step 1.
+#
+# 2. gsplat_mcmc (MCMCStrategy) OOMs on L4 (22GB) even at modest gaussian
+#    counts: garden OOM at 405K gaussians (21GB used), bonsai OOM at 604K
+#    (15GB used). By comparison fvdb_default runs garden to 3.6M gaussians
+#    in only 5.7GB peak VRAM.
+#
+# Both issues are L4-specific. gsplat configs can be tested locally on Ada GPUs
+# using run_nightly_local.sh with a matrix that includes gsplat configs.
 # See: https://github.com/nerfstudio-project/gsplat/issues/XXX (to be filed)
 #
 # The base opt_configs use max_epochs: 200 and refine_stop_epoch: 100 (50% of
@@ -30,8 +38,6 @@ opt_configs:
     path: opt_configs/fvdb_default.yml
   fvdb_mcmc:
     path: opt_configs/fvdb_mcmc_default.yml
-  gsplat_mcmc:
-    path: opt_configs/gsplat_mcmc_default.yml
 
 runs:
   # --- garden (outdoor) ---
@@ -51,17 +57,6 @@ runs:
           refine_stop_epoch: 50
         optimization_config:
           max_gaussians: 5500000
-  - dataset: garden
-    opt_config: gsplat_mcmc
-    overrides:
-      gsplat:
-        training:
-          config:
-            max_epochs: 100
-            refine_stop_epoch: 50
-        cli_args:
-          - --strategy.cap_max
-          - "5500000"
 
   # --- bonsai (indoor) ---
   - dataset: bonsai
@@ -80,17 +75,6 @@ runs:
           refine_stop_epoch: 50
         optimization_config:
           max_gaussians: 1200000
-  - dataset: bonsai
-    opt_config: gsplat_mcmc
-    overrides:
-      gsplat:
-        training:
-          config:
-            max_epochs: 100
-            refine_stop_epoch: 50
-        cli_args:
-          - --strategy.cap_max
-          - "1200000"
 
   # --- bicycle (outdoor, complex) ---
   - dataset: bicycle
@@ -109,14 +93,3 @@ runs:
           refine_stop_epoch: 50
         optimization_config:
           max_gaussians: 5500000
-  - dataset: bicycle
-    opt_config: gsplat_mcmc
-    overrides:
-      gsplat:
-        training:
-          config:
-            max_epochs: 100
-            refine_stop_epoch: 50
-        cli_args:
-          - --strategy.cap_max
-          - "5500000"
