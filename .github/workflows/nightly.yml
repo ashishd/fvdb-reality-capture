@@ -65,7 +65,9 @@ jobs:
         run: |
           SHOULD_SKIP="false"
 
-          if [ -f "gh-pages/dev/bench/last_run_commits.txt" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual dispatch -- always run."
+          elif [ -f "gh-pages/dev/bench/last_run_commits.txt" ]; then
             echo "Found last run commits file"
             cat gh-pages/dev/bench/last_run_commits.txt
 
