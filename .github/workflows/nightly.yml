@@ -518,6 +518,21 @@ jobs:
           pip install -v --no-build-isolation --no-cache-dir \
             "fused-ssim @ git+https://github.com/rahul-goel/fused-ssim@328dc9836f513d00c4b5bc38fe30478b4435cbb5"
 
+      - name: GSplat L4 cold-start repro (synthetic)
+        continue-on-error: true
+        run: |
+          micromamba activate benchmark
+          python tests/benchmarks/comparative/gsplat_l4_coldstart_repro.py --mode synthetic \
+            2>&1 | tee /tmp/gsplat_coldstart_repro.txt
+
+      - name: Upload cold-start repro output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsplat-coldstart-repro
+          path: /tmp/gsplat_coldstart_repro.txt
+          if-no-files-found: ignore
+
       - name: Download mipnerf360 dataset
         run: |
           micromamba activate benchmark
