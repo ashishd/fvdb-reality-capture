@@ -518,6 +518,21 @@ jobs:
           pip install -v --no-build-isolation --no-cache-dir \
             "fused-ssim @ git+https://github.com/rahul-goel/fused-ssim@328dc9836f513d00c4b5bc38fe30478b4435cbb5"
 
+      - name: Run gsplat unit tests on L4
+        run: |
+          micromamba activate benchmark
+          cd /workspace/gsplat
+          python -m pytest tests/test_basic.py tests/test_rasterization.py tests/test_strategy.py \
+            -v --tb=long 2>&1 | tee /tmp/gsplat_l4_test_results.txt
+
+      - name: Upload gsplat test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsplat-l4-test-results-${{ github.run_id }}
+          path: /tmp/gsplat_l4_test_results.txt
+          retention-days: 30
+
       - name: Download mipnerf360 dataset
         run: |
           micromamba activate benchmark
@@ -530,6 +545,22 @@ jobs:
           SITE=$(python -c 'import site; print(site.getsitepackages()[0])')
           sed -i 's/INVALID_POINT3D = np.uint64(-1)/INVALID_POINT3D = np.uint64(2**64-1)/' \
             "$SITE/pycolmap/scene_manager.py" || true
+
+      - name: GSplat L4 warmup
+        run: |
+          micromamba activate benchmark
+          echo "Running 500-step gsplat warmup to avoid L4 cold-start rendering bug."
+          echo "See: https://github.com/openvdb/fvdb-reality-capture/actions/runs/22336658156"
+          cd /workspace/gsplat/examples
+          python simple_trainer.py default \
+            --disable_viewer --disable_video \
+            --data_factor 4 \
+            --data_dir /workspace/data/360_v2/bonsai \
+            --result_dir /tmp/gsplat_warmup \
+            --max_steps 500 \
+            --batch_size 1
+          rm -rf /tmp/gsplat_warmup
+          echo "Warmup complete."
 
       - name: Run comparative benchmark
         run: |

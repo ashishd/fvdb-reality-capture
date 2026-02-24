@@ -2,20 +2,17 @@
 # duration. Covers outdoor (garden, bicycle) and indoor (bonsai) with both
 # default and MCMC optimizers for fVDB.
 #
-# NOTE: All gsplat configs are excluded from nightly L4 runs due to two issues:
+# NOTE: gsplat configs are excluded from nightly runs for now.
 #
-# 1. gsplat_default (DefaultStrategy) produces catastrophically bad quality on
-#    L4 GPUs (PSNR ~12, LPIPS ~0.99) while working fine on Ada GPUs (PSNR ~27).
-#    Training loss decreases normally but eval renders are broken from step 1.
+# gsplat has a cold-start bug on L4 GPUs: the very first gsplat training run on
+# a fresh instance produces garbage renders (PSNR ~14, loss never converges).
+# All subsequent runs in the same session work fine (PSNR ~27). The bug affects
+# whichever strategy runs first (Default or MCMC). A 500-step warmup run in the
+# nightly workflow mitigates this for any gsplat runs added here.
+# See: diagnostic run 22336658156, warmup confirmation run 22339193186.
 #
-# 2. gsplat_mcmc (MCMCStrategy) OOMs on L4 (22GB) even at modest gaussian
-#    counts: garden OOM at 405K gaussians (21GB used), bonsai OOM at 604K
-#    (15GB used). By comparison fvdb_default runs garden to 3.6M gaussians
-#    in only 5.7GB peak VRAM.
-#
-# Both issues are L4-specific. gsplat configs can be tested locally on Ada GPUs
-# using run_nightly_local.sh with a matrix that includes gsplat configs.
-# See: https://github.com/nerfstudio-project/gsplat/issues/XXX (to be filed)
+# gsplat MCMC also OOMs on L4 (22GB) at high gaussian counts. Use cap_max to
+# constrain memory if adding gsplat_mcmc configs.
 #
 # The base opt_configs use max_epochs: 200 and refine_stop_epoch: 100 (50% of
 # training). We halve both here so the refinement/training ratio stays the same.
