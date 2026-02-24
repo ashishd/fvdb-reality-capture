@@ -1,0 +1,55 @@
+# Test matrix: does running MCMC first fix the DefaultStrategy cold-start issue?
+#
+# Background: the gsplat_l4_diagnostic run (22336658156) showed that only the
+# very first gsplat DefaultStrategy run on a fresh L4 instance produces garbage
+# (PSNR ~14). Reps 2-5 all produced PSNR ~27. MCMC was consistent across all
+# 5 reps (PSNR ~25).
+#
+# This test runs MCMC once first, then DefaultStrategy once. If Default
+# produces PSNR ~27 (not ~14), the cold-start hypothesis is confirmed and we
+# can add a lightweight warmup step to the nightly workflow.
+#
+# Total: 2 runs x ~3 min = ~6 min on L4.
+name: gsplat_l4_warmup_test
+
+paths:
+  gsplat_base: /workspace/gsplat/examples
+  data_base: /workspace/data
+
+datasets:
+- name: bonsai
+  path: 360_v2/bonsai
+
+opt_configs:
+  gsplat_default:
+    path: opt_configs/gsplat_default.yml
+  gsplat_mcmc:
+    path: opt_configs/gsplat_mcmc_default.yml
+
+runs:
+  # Run 1: MCMC warmup (runs first on the fresh L4)
+  - dataset: bonsai
+    opt_config: gsplat_mcmc
+    variant: warmup
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+        cli_args:
+          - --strategy.cap_max
+          - "500000"
+
+  # Run 2: DefaultStrategy (should now be "warm" -- expect PSNR ~27, not ~14)
+  - dataset: bonsai
+    opt_config: gsplat_default
+    variant: after_warmup
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
