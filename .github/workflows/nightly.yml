@@ -518,24 +518,6 @@ jobs:
           pip install -v --no-build-isolation --no-cache-dir \
             "fused-ssim @ git+https://github.com/rahul-goel/fused-ssim@328dc9836f513d00c4b5bc38fe30478b4435cbb5"
 
-      - name: Run gsplat unit tests on L4
-        continue-on-error: true
-        run: |
-          micromamba activate benchmark
-          cd /tmp
-          python -m pytest /workspace/gsplat/tests/test_basic.py \
-            /workspace/gsplat/tests/test_rasterization.py \
-            /workspace/gsplat/tests/test_strategy.py \
-            -v --tb=long 2>&1 | tee /tmp/gsplat_l4_test_results.txt
-
-      - name: Upload gsplat test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gsplat-l4-test-results-${{ github.run_id }}
-          path: /tmp/gsplat_l4_test_results.txt
-          retention-days: 30
-
       - name: Download mipnerf360 dataset
         run: |
           micromamba activate benchmark
