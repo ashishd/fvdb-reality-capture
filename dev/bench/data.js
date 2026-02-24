@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771903538343,
+  "lastUpdate": 1771903540185,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -5184,6 +5184,88 @@ window.BENCHMARK_DATA = {
             "name": "garden/fvdb_mcmc - training_time",
             "value": 4.4351,
             "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "5f87e772a286181e7c374f275fdf4824e3c40138",
+          "message": "Skip commit-dedup check on manual workflow_dispatch\n\nThe nightly skip logic compared commit hashes against the last\nrecorded run, which caused manual re-dispatches to be skipped even\nwhen workflow/config changes warranted a new run. Manual dispatches\nnow always proceed; the dedup guard still applies to scheduled runs.\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Cursor <cursoragent@cursor.com>",
+          "timestamp": "2026-02-24T00:49:37Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/5f87e772a286181e7c374f275fdf4824e3c40138"
+        },
+        "date": 1771903539749,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 951.96,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.6321,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 491.01,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5886,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 532.75,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.6362,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 737.95,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.6269,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1057.84,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.6736,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 939.02,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 3.795,
+            "unit": "GB"
           }
         ]
       }
