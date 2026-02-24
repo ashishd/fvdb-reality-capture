@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771896514871,
+  "lastUpdate": 1771903538343,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -5032,6 +5032,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_default - SSIM",
             "value": 0.8656,
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "5f87e772a286181e7c374f275fdf4824e3c40138",
+          "message": "Skip commit-dedup check on manual workflow_dispatch\n\nThe nightly skip logic compared commit hashes against the last\nrecorded run, which caused manual re-dispatches to be skipped even\nwhen workflow/config changes warranted a new run. Manual dispatches\nnow always proceed; the dedup guard still applies to scheduled runs.\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Cursor <cursoragent@cursor.com>",
+          "timestamp": "2026-02-24T00:49:37Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/5f87e772a286181e7c374f275fdf4824e3c40138"
+        },
+        "date": 1771903537911,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.129,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7436,
+            "unit": ""
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - PSNR",
+            "value": 24.866,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - SSIM",
+            "value": 0.7101,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.353,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.9556,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - PSNR",
+            "value": 32.892,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - SSIM",
+            "value": 0.9583,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.63,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8652,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_mcmc - PSNR",
+            "value": 27.612,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - SSIM",
+            "value": 0.8608,
             "unit": ""
           }
         ]
