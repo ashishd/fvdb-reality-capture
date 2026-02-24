@@ -1,0 +1,156 @@
+# Diagnostic matrix for reproducing gsplat issues on L4 GPUs.
+#
+# Runs gsplat DefaultStrategy and MCMCStrategy 5 times each on bonsai
+# at 10 epochs (~2-4 min per run) to characterize two L4-specific issues:
+#
+# 1. DefaultStrategy: consistently produces garbage eval renders (PSNR ~12,
+#    LPIPS ~0.99) while training loss decreases normally. Expected to
+#    reproduce on every run.
+#
+# 2. MCMCStrategy: non-deterministic -- sometimes works (PSNR ~25), sometimes
+#    produces garbage quality and/or OOMs. Multiple repetitions needed to
+#    measure the failure rate.
+#
+# Total: 10 runs x ~3 min = ~30 min on L4, ~15 min on Ada.
+# Run with: bash run_nightly_local.sh --matrix gsplat_l4_diagnostic_matrix.yml
+name: gsplat_l4_diagnostic
+
+paths:
+  gsplat_base: /workspace/gsplat/examples
+  data_base: /workspace/data
+
+datasets:
+- name: bonsai
+  path: 360_v2/bonsai
+
+opt_configs:
+  gsplat_default:
+    path: opt_configs/gsplat_default.yml
+  gsplat_mcmc:
+    path: opt_configs/gsplat_mcmc_default.yml
+
+runs:
+  # --- DefaultStrategy: 5 repetitions ---
+  # Expected: all 5 should show PSNR ~12-14, LPIPS ~0.99 on L4.
+  # On Ada: all 5 should show PSNR ~30+, LPIPS ~0.1.
+  - dataset: bonsai
+    opt_config: gsplat_default
+    variant: rep1
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+  - dataset: bonsai
+    opt_config: gsplat_default
+    variant: rep2
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+  - dataset: bonsai
+    opt_config: gsplat_default
+    variant: rep3
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+  - dataset: bonsai
+    opt_config: gsplat_default
+    variant: rep4
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+  - dataset: bonsai
+    opt_config: gsplat_default
+    variant: rep5
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+
+  # --- MCMCStrategy: 5 repetitions ---
+  # Expected on L4: inconsistent -- some runs may work (PSNR ~25+),
+  # others may show garbage quality or OOM. cap_max kept low (500K)
+  # to reduce OOM risk so we can observe the quality issue.
+  # On Ada: all 5 should produce good results.
+  - dataset: bonsai
+    opt_config: gsplat_mcmc
+    variant: rep1
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+        cli_args:
+          - --strategy.cap_max
+          - "500000"
+  - dataset: bonsai
+    opt_config: gsplat_mcmc
+    variant: rep2
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+        cli_args:
+          - --strategy.cap_max
+          - "500000"
+  - dataset: bonsai
+    opt_config: gsplat_mcmc
+    variant: rep3
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+        cli_args:
+          - --strategy.cap_max
+          - "500000"
+  - dataset: bonsai
+    opt_config: gsplat_mcmc
+    variant: rep4
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+        cli_args:
+          - --strategy.cap_max
+          - "500000"
+  - dataset: bonsai
+    opt_config: gsplat_mcmc
+    variant: rep5
+    overrides:
+      gsplat:
+        training:
+          config:
+            max_epochs: 10
+            refine_stop_epoch: 5
+            eval_at_percent: [10, 50, 100]
+        cli_args:
+          - --strategy.cap_max
+          - "500000"
