@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771980872491,
+  "lastUpdate": 1771980874282,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -6363,6 +6363,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
             "value": 3.795,
+            "unit": "GB"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "1895b6349c2f7b6119e5c7d5ce07d35e0347021c",
+          "message": "fix: address Copilot review comments on PR #240\n\n- nightly.yml: use github.event.inputs.comparative_matrix instead of\n  inputs.comparative_matrix so conditionals evaluate correctly during\n  scheduled (non-workflow_dispatch) runs\n- run_nightly_local.sh: fix -d to -f for build.sh file check, add\n  comment clarifying intentional word splitting of EXTRA_ARGS, pass\n  MATRIX via sys.argv instead of interpolating into Python -c string\n- nightly_matrix.yml: replace CI run IDs with upstream gsplat#872 URL\n- Add unit tests for format_for_gh_benchmark.py covering build_entries\n  (normal, missing metrics, NaN, empty, config filtering, rounding)\n  and main() CLI integration\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Cursor <cursoragent@cursor.com>",
+          "timestamp": "2026-02-25T00:35:33Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/1895b6349c2f7b6119e5c7d5ce07d35e0347021c"
+        },
+        "date": 1771980873828,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 946.01,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.5947,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 488.35,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5832,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 534.5,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.6421,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 742.24,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.626,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1071.07,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.6839,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 932.67,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 3.7906,
             "unit": "GB"
           }
         ]
