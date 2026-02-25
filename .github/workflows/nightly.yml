@@ -551,10 +551,10 @@ jobs:
         run: |
           micromamba activate benchmark
           cd tests/benchmarks/comparative
-          python comparison_benchmark.py --matrix ${{ inputs.comparative_matrix || 'nightly_matrix.yml' }}
+          python comparison_benchmark.py --matrix ${{ github.event.inputs.comparative_matrix || 'nightly_matrix.yml' }}
 
       - name: Convert results to benchmark format
-        if: ${{ (inputs.comparative_matrix || 'nightly_matrix.yml') == 'nightly_matrix.yml' }}
+        if: ${{ github.event.inputs.comparative_matrix == '' || github.event.inputs.comparative_matrix == null || github.event.inputs.comparative_matrix == 'nightly_matrix.yml' }}
         run: |
           micromamba activate benchmark
           cd tests/benchmarks/comparative
@@ -563,14 +563,14 @@ jobs:
             --output-dir results/nightly_benchmark/summary
 
       - name: Clean up modified files
-        if: ${{ (inputs.comparative_matrix || 'nightly_matrix.yml') == 'nightly_matrix.yml' }}
+        if: ${{ github.event.inputs.comparative_matrix == '' || github.event.inputs.comparative_matrix == null || github.event.inputs.comparative_matrix == 'nightly_matrix.yml' }}
         run: |
           git checkout -- tests/benchmarks/ || true
           git clean -fd tests/benchmarks/ \
             -e tests/benchmarks/comparative/results/ || true
 
       - name: Store quality benchmark results
-        if: ${{ (inputs.comparative_matrix || 'nightly_matrix.yml') == 'nightly_matrix.yml' }}
+        if: ${{ github.event.inputs.comparative_matrix == '' || github.event.inputs.comparative_matrix == null || github.event.inputs.comparative_matrix == 'nightly_matrix.yml' }}
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: fvdb-reality-capture Comparative Quality
@@ -584,7 +584,7 @@ jobs:
           alert-comment-cc-users: '@openvdb/fvdb-dev'
 
       - name: Store performance benchmark results
-        if: ${{ (inputs.comparative_matrix || 'nightly_matrix.yml') == 'nightly_matrix.yml' }}
+        if: ${{ github.event.inputs.comparative_matrix == '' || github.event.inputs.comparative_matrix == null || github.event.inputs.comparative_matrix == 'nightly_matrix.yml' }}
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: fvdb-reality-capture Comparative Performance

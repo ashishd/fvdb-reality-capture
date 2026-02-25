@@ -38,7 +38,7 @@ if [[ -z "${FVDB_CORE_DIR}" ]]; then
         "${REPO_ROOT}/../fvdb-core" \
         "${REPO_ROOT}/../../fvdb-core" \
         ; do
-        if [[ -d "${candidate}/build.sh" ]] || [[ -d "${candidate}" && -f "${candidate}/build.sh" ]]; then
+        if [[ -f "${candidate}/build.sh" ]] || [[ -d "${candidate}" && -f "${candidate}/build.sh" ]]; then
             FVDB_CORE_DIR="$(cd "${candidate}" && pwd)"
             break
         fi
@@ -194,10 +194,20 @@ frgs download mipnerf360 --download-path /workspace/data
 
 echo "=== Running comparative benchmark ==="
 cd /workspace/fvdb-reality-capture/tests/benchmarks/comparative
+# EXTRA_ARGS is a flat space-separated string from "$*"; word splitting is intentional.
 python comparison_benchmark.py --matrix "${MATRIX}" ${EXTRA_ARGS}
 
 echo "=== Converting results to benchmark format ==="
-RESULTS_NAME=$(python -c "import yaml; m=yaml.safe_load(open('${MATRIX}')); print(m.get('name','benchmark'))")
+RESULTS_NAME=$(python - "${MATRIX}" <<'PY'
+import sys
+import yaml
+
+matrix_path = sys.argv[1]
+with open(matrix_path, "r", encoding="utf-8") as f:
+    m = yaml.safe_load(f)
+print(m.get("name", "benchmark"))
+PY
+)
 python format_for_gh_benchmark.py \
     "results/${RESULTS_NAME}/summary/summary_data.json" \
     --output-dir "results/${RESULTS_NAME}/summary"

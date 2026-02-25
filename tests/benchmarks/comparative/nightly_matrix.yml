@@ -9,7 +9,7 @@
 # All subsequent runs in the same session work fine (PSNR ~27). The bug affects
 # whichever strategy runs first (Default or MCMC). A 500-step warmup run in the
 # nightly workflow mitigates this for any gsplat runs added here.
-# See: diagnostic run 22336658156, warmup confirmation run 22339193186.
+# See: https://github.com/nerfstudio-project/gsplat/issues/872
 #
 # gsplat MCMC also OOMs on L4 (22GB) at high gaussian counts. Use cap_max to
 # constrain memory if adding gsplat_mcmc configs.
