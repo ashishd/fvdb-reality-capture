@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1771975881164,
+  "lastUpdate": 1771980872491,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -6125,6 +6125,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - PSNR",
             "value": 27.612,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - SSIM",
+            "value": 0.8608,
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "1895b6349c2f7b6119e5c7d5ce07d35e0347021c",
+          "message": "fix: address Copilot review comments on PR #240\n\n- nightly.yml: use github.event.inputs.comparative_matrix instead of\n  inputs.comparative_matrix so conditionals evaluate correctly during\n  scheduled (non-workflow_dispatch) runs\n- run_nightly_local.sh: fix -d to -f for build.sh file check, add\n  comment clarifying intentional word splitting of EXTRA_ARGS, pass\n  MATRIX via sys.argv instead of interpolating into Python -c string\n- nightly_matrix.yml: replace CI run IDs with upstream gsplat#872 URL\n- Add unit tests for format_for_gh_benchmark.py covering build_entries\n  (normal, missing metrics, NaN, empty, config filtering, rounding)\n  and main() CLI integration\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Cursor <cursoragent@cursor.com>",
+          "timestamp": "2026-02-25T00:35:33Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/1895b6349c2f7b6119e5c7d5ce07d35e0347021c"
+        },
+        "date": 1771980872064,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.172,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7452,
+            "unit": ""
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - PSNR",
+            "value": 24.887,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - SSIM",
+            "value": 0.7082,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.543,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.9567,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - PSNR",
+            "value": 32.775,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - SSIM",
+            "value": 0.9576,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.633,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8656,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_mcmc - PSNR",
+            "value": 27.55,
             "unit": "dB"
           },
           {
