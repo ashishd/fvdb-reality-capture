@@ -391,7 +391,7 @@ jobs:
           python3 -m pip install --no-cache-dir \
             torch==${{ needs.discover-fvdb-core.outputs.torch-version }} \
             --extra-index-url ${{ needs.discover-fvdb-core.outputs.pytorch-index }}
-          python3 -m pip install --no-cache-dir \
+          python3 -m pip install --no-cache-dir --only-binary fvdb-core \
             fvdb-core \
             --extra-index-url https://fvdb-packages.s3.us-east-2.amazonaws.com/simple-staging/
           python3 -m pip install dist/fvdb_reality_capture-*.whl
@@ -454,7 +454,7 @@ jobs:
           python3 -m pip install --no-cache-dir \
             torch==${{ needs.discover-fvdb-core.outputs.torch-version }} torchvision \
             --extra-index-url ${{ needs.discover-fvdb-core.outputs.pytorch-index }}
-          python3 -m pip install --no-cache-dir \
+          python3 -m pip install --no-cache-dir --only-binary fvdb-core \
             fvdb-core \
             --extra-index-url https://fvdb-packages.s3.us-east-2.amazonaws.com/simple-staging/
 
