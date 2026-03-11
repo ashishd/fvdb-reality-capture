@@ -469,7 +469,8 @@ jobs:
 
       - name: Install fvdb-reality-capture with test dependencies
         run: |
-          python3 -m pip install "dist/fvdb_reality_capture-*.whl[benchmark]"
+          WHEEL=$(ls dist/fvdb_reality_capture-*.whl)
+          python3 -m pip install "${WHEEL}[benchmark]"
           python3 -m pip install pytest matplotlib
 
       - name: Run unit and benchmark contract tests
