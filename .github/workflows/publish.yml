@@ -273,6 +273,7 @@ jobs:
       cuda-tag: ${{ steps.discover.outputs.cuda_tag }}
       cuda-image-tag: ${{ steps.discover.outputs.cuda_image_tag }}
       pytorch-index: ${{ steps.discover.outputs.pytorch_index }}
+      core-wheel-url: ${{ steps.discover.outputs.core_wheel_url }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -325,11 +326,21 @@ jobs:
 
           PYTORCH_INDEX="https://download.pytorch.org/whl/${CUDA_TAG}"
 
+          # Extract base version (e.g. 0.4.0) from the wheel filename
+          CORE_VERSION=$(echo "$WHEEL" | grep -oP 'fvdb_core-\K[0-9]+\.[0-9]+\.[0-9]+')
+
+          # Build direct download URL for cp312 wheel (+ must be %2B in S3 URLs)
+          S3_BASE="https://fvdb-packages.s3.us-east-2.amazonaws.com/simple-staging/fvdb-core"
+          LOCAL_TAG_CLEAN=$(echo "$LOCAL_TAG" | sed 's/^+//')
+          CORE_WHEEL_URL="${S3_BASE}/fvdb_core-${CORE_VERSION}%2B${LOCAL_TAG_CLEAN}-cp312-cp312-manylinux_2_35_x86_64.whl"
+
           echo "Discovered: torch=$TORCH_VERSION cuda=$CUDA_TAG image=$CUDA_IMAGE_TAG"
+          echo "Core wheel URL: $CORE_WHEEL_URL"
           echo "torch_version=$TORCH_VERSION" >> $GITHUB_OUTPUT
           echo "cuda_tag=$CUDA_TAG" >> $GITHUB_OUTPUT
           echo "cuda_image_tag=$CUDA_IMAGE_TAG" >> $GITHUB_OUTPUT
           echo "pytorch_index=$PYTORCH_INDEX" >> $GITHUB_OUTPUT
+          echo "core_wheel_url=$CORE_WHEEL_URL" >> $GITHUB_OUTPUT
 
   start-validation-runner:
     name: Start GPU EC2 runner for validation
@@ -391,9 +402,8 @@ jobs:
           python3 -m pip install --no-cache-dir \
             torch==${{ needs.discover-fvdb-core.outputs.torch-version }} \
             --extra-index-url ${{ needs.discover-fvdb-core.outputs.pytorch-index }}
-          python3 -m pip install --no-cache-dir --only-binary fvdb-core \
-            fvdb-core \
-            --extra-index-url https://fvdb-packages.s3.us-east-2.amazonaws.com/simple-staging/
+          python3 -m pip install --no-cache-dir \
+            "${{ needs.discover-fvdb-core.outputs.core-wheel-url }}"
           python3 -m pip install dist/fvdb_reality_capture-*.whl
 
       - name: Smoke test
@@ -454,9 +464,8 @@ jobs:
           python3 -m pip install --no-cache-dir \
             torch==${{ needs.discover-fvdb-core.outputs.torch-version }} torchvision \
             --extra-index-url ${{ needs.discover-fvdb-core.outputs.pytorch-index }}
-          python3 -m pip install --no-cache-dir --only-binary fvdb-core \
-            fvdb-core \
-            --extra-index-url https://fvdb-packages.s3.us-east-2.amazonaws.com/simple-staging/
+          python3 -m pip install --no-cache-dir \
+            "${{ needs.discover-fvdb-core.outputs.core-wheel-url }}"
 
       - name: Install fvdb-reality-capture with test dependencies
         run: |
