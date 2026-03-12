@@ -396,7 +396,7 @@ jobs:
         shell: bash -el {0}
     steps:
       - name: Install prerequisites
-        run: dnf install -y git wget procps-ng findutils ca-certificates
+        run: dnf install -y git wget procps-ng findutils
 
       - name: Install uv
         uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86
@@ -451,6 +451,7 @@ jobs:
       image: nvidia/cuda:${{ needs.discover-fvdb-core.outputs.cuda-image-tag }}-base-rockylinux8
       env:
         PYTHONPATH: ""
+        SSL_CERT_FILE: /etc/pki/tls/certs/ca-bundle.crt
       options: --rm
     defaults:
       run:
