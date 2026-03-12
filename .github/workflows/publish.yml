@@ -457,7 +457,7 @@ jobs:
         shell: bash -el {0}
     steps:
       - name: Install prerequisites
-        run: dnf install -y git wget procps-ng findutils
+        run: dnf install -y git wget procps-ng findutils ca-certificates
 
       - uses: actions/checkout@v4
         with:
