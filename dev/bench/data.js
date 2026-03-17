@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773708722786,
+  "lastUpdate": 1773713615345,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -8101,6 +8101,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - SSIM",
             "value": 0.8611,
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "c66de9a8e37582c32b3febc82732d9962d771e44",
+          "message": "Fix nightly benchmark: update PyTorch 2.8->2.10 and CUDA 12.9->13.0\n\nThe benchmark environment was still using PyTorch 2.8.0 / CUDA 12.9\nwhile fvdb-core is now built with PyTorch 2.10.0 / CUDA 13.0. The ABI\nmismatch caused fvdb's C++ extensions to fail at import time, breaking\nevery benchmark run since March 11.\n\n- benchmark_environment.yml: bump pytorch-gpu to 2.10.0, cuda-version\n  to 13.0, and point torchsparse/torch_scatter/torchsparse_20 wheel\n  URLs at the pt210cu130 builds on fvdb-packages S3\n- benchmark_environment.yml: remove pybind11=2.13.6 pin (requires\n  pybind11-abi 4, but libtorch 2.10 needs pybind11-abi 11)\n- nightly.yml: add CONDA_OVERRIDE_CUDA: \"13.0\" to both benchmark job\n  containers so conda can resolve CUDA 13.0 packages\n- Dockerfile: update CONDA_OVERRIDE_CUDA from 12.9 to 13.0\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>",
+          "timestamp": "2026-03-16T23:23:18Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/c66de9a8e37582c32b3febc82732d9962d771e44"
+        },
+        "date": 1773713614133,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.143,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7437,
+            "unit": ""
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - PSNR",
+            "value": 24.889,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - SSIM",
+            "value": 0.7096,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.596,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.9567,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - PSNR",
+            "value": 32.945,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - SSIM",
+            "value": 0.9582,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.643,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8654,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_mcmc - PSNR",
+            "value": 27.526,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - SSIM",
+            "value": 0.861,
             "unit": ""
           }
         ]
