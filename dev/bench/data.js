@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773713615345,
+  "lastUpdate": 1773713621920,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -8908,6 +8908,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
             "value": 3.7918,
+            "unit": "GB"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "id": "c66de9a8e37582c32b3febc82732d9962d771e44",
+          "message": "Fix nightly benchmark: update PyTorch 2.8->2.10 and CUDA 12.9->13.0\n\nThe benchmark environment was still using PyTorch 2.8.0 / CUDA 12.9\nwhile fvdb-core is now built with PyTorch 2.10.0 / CUDA 13.0. The ABI\nmismatch caused fvdb's C++ extensions to fail at import time, breaking\nevery benchmark run since March 11.\n\n- benchmark_environment.yml: bump pytorch-gpu to 2.10.0, cuda-version\n  to 13.0, and point torchsparse/torch_scatter/torchsparse_20 wheel\n  URLs at the pt210cu130 builds on fvdb-packages S3\n- benchmark_environment.yml: remove pybind11=2.13.6 pin (requires\n  pybind11-abi 4, but libtorch 2.10 needs pybind11-abi 11)\n- nightly.yml: add CONDA_OVERRIDE_CUDA: \"13.0\" to both benchmark job\n  containers so conda can resolve CUDA 13.0 packages\n- Dockerfile: update CONDA_OVERRIDE_CUDA from 12.9 to 13.0\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>",
+          "timestamp": "2026-03-16T23:23:18Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/c66de9a8e37582c32b3febc82732d9962d771e44"
+        },
+        "date": 1773713621528,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 930.75,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.605,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 488.45,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5981,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 526.25,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.6407,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 728.3,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.6269,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1050.84,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.6819,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 923.04,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 3.7948,
             "unit": "GB"
           }
         ]
