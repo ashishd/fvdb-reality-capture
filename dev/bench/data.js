@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774012036778,
+  "lastUpdate": 1774012038575,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -10072,6 +10072,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
             "value": 3.7922,
+            "unit": "GB"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "54440de814afc0131804c989c5044edb923c559d",
+          "message": "Fix outdated fvdb-core version in installation docs (#275)\n\n## Summary\n\n- Replace the hardcoded `fvdb-core==0.3.0` pip install command in\n`README.md` with a link to the installation docs (matching the pattern\nfvdb-core already uses in its README)\n- Centralize the fvdb-core version in `docs/conf.py` via `rst_prolog`\nsubstitutions so `installation.rst` uses a single-source version\nvariable (`0.4.0`) instead of a hardcoded string\n- Update install sections from PyTorch 2.8.0 / CUDA 12.8 to **PyTorch\n2.10.0 / CUDA 12.8** and **CUDA 13.0** (matching published 0.4.0 wheels)\n- Bump the `fvdb-core` dependency floor in `pyproject.toml` from\n`>=0.3.0` to `>=0.4.0` (the `morton` API required by current code was\nintroduced in 0.4.0)\n\nCompanion PR in fvdb-core (openvdb/fvdb-core#552) adds\n`devtools/update-doc-versions.sh` and integrates it into\n`start-release.sh` so these versions are updated automatically during\nfuture releases.\n\nFixes #273\n\n---------\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>",
+          "timestamp": "2026-03-19T03:50:57Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/54440de814afc0131804c989c5044edb923c559d"
+        },
+        "date": 1774012038126,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 939.86,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.582,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 489.4,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5871,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 532.88,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.6403,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 735.36,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.6273,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1065.41,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.6825,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 930.61,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 3.7959,
             "unit": "GB"
           }
         ]
