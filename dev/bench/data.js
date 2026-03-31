@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774969383498,
+  "lastUpdate": 1774969394340,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -11654,6 +11654,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
             "value": 3.7939,
+            "unit": "GB"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "a2410e00e7033047a81e4087d8ded4cea72081a4",
+          "message": "Harden issue-triage workflow membership check (#276)\n\n## Summary\n\n- Validate `ISSUES_PAT` is configured before calling the GitHub API\n- Parse the HTTP status code robustly (grep for `^HTTP/` line instead of\n  assuming it is the first line of output)\n- Distinguish 404 (not a member) from auth/config errors (fail the\nworkflow)\n- Guard all pipelines against `set -e` / `pipefail` so expected non-zero\n  exits don't terminate the step prematurely\n- Surface the raw API response on unexpected failures for easier\ndebugging\n\nCompanion to openvdb/fvdb-core#551.\n\n## Test plan\n\n- Verified `ISSUES_PAT` secret is set and can read fvdb-dev team members\n\n---------\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>",
+          "timestamp": "2026-03-25T03:25:22Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/a2410e00e7033047a81e4087d8ded4cea72081a4"
+        },
+        "date": 1774969393911,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 936.01,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.6013,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 488.9,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5897,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 534.16,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.6381,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 736.27,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.6268,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1068.77,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.6754,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 940.51,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 3.7954,
             "unit": "GB"
           }
         ]
