@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774957926800,
+  "lastUpdate": 1774969383498,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -10109,6 +10109,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - SSIM",
             "value": 0.8605,
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "a2410e00e7033047a81e4087d8ded4cea72081a4",
+          "message": "Harden issue-triage workflow membership check (#276)\n\n## Summary\n\n- Validate `ISSUES_PAT` is configured before calling the GitHub API\n- Parse the HTTP status code robustly (grep for `^HTTP/` line instead of\n  assuming it is the first line of output)\n- Distinguish 404 (not a member) from auth/config errors (fail the\nworkflow)\n- Guard all pipelines against `set -e` / `pipefail` so expected non-zero\n  exits don't terminate the step prematurely\n- Surface the raw API response on unexpected failures for easier\ndebugging\n\nCompanion to openvdb/fvdb-core#551.\n\n## Test plan\n\n- Verified `ISSUES_PAT` secret is set and can read fvdb-dev team members\n\n---------\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>",
+          "timestamp": "2026-03-25T03:25:22Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/a2410e00e7033047a81e4087d8ded4cea72081a4"
+        },
+        "date": 1774969382094,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.112,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7426,
+            "unit": ""
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - PSNR",
+            "value": 24.851,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - SSIM",
+            "value": 0.7093,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.571,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.9564,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - PSNR",
+            "value": 32.8,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - SSIM",
+            "value": 0.9579,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.656,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8652,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_mcmc - PSNR",
+            "value": 27.537,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - SSIM",
+            "value": 0.8609,
             "unit": ""
           }
         ]
