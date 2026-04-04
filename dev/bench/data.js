@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775228461811,
+  "lastUpdate": 1775314236400,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -10646,6 +10646,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - SSIM",
             "value": 0.8668,
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Francis Williams",
+            "username": "fwilliams",
+            "email": "fwilliams@users.noreply.github.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "3977fa17814cb5a4114ec9634683c697555a7965",
+          "message": "Add PR 518 camera model support to Gaussian splat reconstruction (#253)\n\n## Summary\nThis PR addresses\n[#252](https://github.com/openvdb/fvdb-reality-capture/issues/252):\nsupport world-space Gaussian splat reconstruction on top of the new\n`fvdb-core` camera/render API, while cleaning up how reality-capture\nrepresents cameras, distortion, and render-time camera behavior.\n\nAt a high level, the existing Gaussian splat pipeline was too narrow for\nthe `fvdb-core#518` API surface. Reconstruction and downstream tools\nstill assumed undistorted pinhole cameras, image-space rendering was\neffectively hard-coded, and pose-optimization / checkpoint-loading\nbehavior was not robust enough once the new camera/render paths were\nexercised more seriously.\n\nThis change keeps `GaussianSplatReconstruction` as the top-level\ncoordinator, but introduces a narrow internal render seam plus a cleaner\ncamera contract so the pipeline can support both image-space and\nworld-space rendering while remaining readable and testable.\n\n## What changed\n- Added an internal render backend abstraction for Gaussian splat\nreconstruction, with image-space and world-space implementations.\n- Updated reconstruction and evaluation paths to route rendering through\nthat backend seam rather than hard-coding one rendering path.\n- Simplified `SfmCameraMetadata` so it represents a single canonical\npixel space and uses canonical `fvdb.CameraModel` plus packed\n`distortion_coeffs`.\n- Removed the dataset-level undistortion flag and instead added an\n`UndistortImages` scene transform that materializes a new undistorted\nscene representation.\n- Updated `SfmDataset` to operate directly on the current scene pixel\nspace rather than switching between raw and derived camera states\ninternally.\n- Moved initialization parameters `initial_opacity` and\n`initial_covariance_scale` to optimizer config as the single source of\ntruth, with backward-compatible checkpoint loading.\n- Added explicit pinhole-camera validation for TSDF fusion and\npoint-cloud extraction paths that still rely on pinhole depth\nunprojection assumptions.\n- Updated benchmark config contracts and comparative benchmark utilities\nto match the optimizer-config move for initialization parameters.\n- Added and updated unit tests for camera metadata, the undistortion\ntransform, TSDF/point-cloud camera-model validation, optimizer helpers,\nand benchmark behavior.\n- Improved render backend naming and documentation (`image`, `alpha`,\n`depth`) and cleaned up test helper typing.\n\n## Follow-up fixes included in this branch\nWhile validating the world-space and MCMC paths, this branch also picked\nup several correctness fixes that are worth calling out explicitly:\n- Fixed pose optimization bookkeeping to use scene-global image IDs\ninstead of training-local IDs.\n- Sized the learned pose table against `sfm_scene.num_images` so pose\nindexing remains consistent across train / validation splits.\n- Added a warning when pose optimization is enabled with a holdout\nvalidation set, since validation views still use their original poses.\n- Added backward-compatible remapping for legacy checkpoints whose pose\nembeddings were stored using training-local IDs.\n- Fixed `GaussianSplatReconstruction.from_state_dict()` so CPU-loaded\ncheckpoints can be restored onto CUDA correctly by re-deviceing and\nre-leafing nested tensor state before optimizer reconstruction.\n\n## Why this approach\nThe main goal of\n[#252](https://github.com/openvdb/fvdb-reality-capture/issues/252) was\nnot just to \"make the new API compile,\" but to make world-space Gaussian\nreconstruction a first-class path while keeping the pipeline\nunderstandable.\n\nThis PR takes a moderate-refactor approach:\n- keep reconstruction orchestration centralized in\n`GaussianSplatReconstruction`\n- introduce one narrow internal rendering seam instead of spreading\nconditional logic throughout training/eval\n- make `fvdb.CameraModel` the canonical camera enum\n- make undistortion a scene transform so `SfmScene`,\n`SfmCameraMetadata`, and `SfmDataset` all agree on a single pixel space\nat a time\n- fail explicitly in downstream depth-unprojection paths that still only\nsupport pinhole cameras\n\nThat gives us world-space rendering support without turning\nreconstruction into a generic plugin framework, while also making future\nrendering backends easier to add.\n\n## Notable bug fixes\n- Fixed MCMC initialization so `initial_covariance_scale` and\n`initial_opacity` are taken from the optimizer config, instead of\nincorrectly falling back to reconstruction-config defaults.\n- Fixed reconstruction training / metadata paths to use the correct\noptimized camera poses after pose optimization.\n- Fixed checkpoint restore for legacy pose-optimization state and for\nCPU-loaded checkpoints restored onto CUDA.\n\n## Camera/distortion behavior after this PR\n- `SfmCameraMetadata` now uses canonical `fvdb.CameraModel` values and\npacked `distortion_coeffs` as the primary camera representation.\n- If a workflow wants undistorted images, it should transform the scene\nwith `UndistortImages` and then operate on that derived scene.\n- If a workflow uses raw distorted cameras, the render backend is\nresponsible for assembling the correct FVDB render arguments.\n- TSDF/point-cloud extraction now reject unsupported non-pinhole camera\nmodels early instead of silently applying pinhole-only unprojection\nassumptions.\n\n## Downstream impact\nThis PR also updates supporting tools and contracts so the new\nrendering/camera behavior is reflected consistently across the repo:\n- CLI camera metadata loading\n- meshing and point-cloud extraction validation\n- benchmark schema/config extraction\n- unit-test helpers and benchmark behavior when local benchmark\nartifacts are absent\n- checkpoint compatibility for older reconstruction runs that predate\nscene-global pose IDs\n\n## Blocked on\n- `openvdb/fvdb-core#518`\n\n## Issue\nCloses #252.\n\n## Test plan\n- `source \"/home/fwilliams/bin/miniconda3/etc/profile.d/conda.sh\" &&\nconda activate fvdb && python -m pytest -v`\n- `source \"/home/fwilliams/bin/miniconda3/etc/profile.d/conda.sh\" &&\nconda activate fvdb && frgs reconstruct-mcmc data/360_v2/garden -o\nscratch/exp_mcmc_init_paper_garden_no_pose_current_core_benchmark.ply -n\nexp_mcmc_init_paper_garden_no_pose_current_core_benchmark -vn 100\n--cfg.max-epochs 60 --cfg.eval-at-percent 10 20 30 40 50 60 70 80 90 100\n--cfg.save-at-percent 100 --cfg.batch-size 1 --cfg.render-backend\nworld_space --cfg.projection-method unscented\n--cfg.no-optimize-camera-poses --opt.max-gaussians 1000000\n--opt.initial-opacity 0.5 --opt.initial-covariance-scale 0.1\n--io.log-path\nscratch/exp_mcmc_init_paper_garden_no_pose_current_core_benchmark`\n- `source \"/home/fwilliams/bin/miniconda3/etc/profile.d/conda.sh\" &&\nconda activate fvdb && pytest unit/test_gaussian_splat_3d.py -k\nprojection_method_resolution_and_metadata -v` (run from\n`../fvdb-core/tests` after rebuilding/installing `fvdb-core` with\n`./build.sh install`)\n\nMade with [Cursor](https://cursor.com)\n\n---------\n\nSigned-off-by: Francis Williams <francis@fwilliams.info>",
+          "timestamp": "2026-04-01T01:50:40Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/3977fa17814cb5a4114ec9634683c697555a7965"
+        },
+        "date": 1775314236004,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.136,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7437,
+            "unit": ""
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - PSNR",
+            "value": 25.018,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - SSIM",
+            "value": 0.7307,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.564,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.9567,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - PSNR",
+            "value": 32.712,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - SSIM",
+            "value": 0.9585,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.639,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8655,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_mcmc - PSNR",
+            "value": 27.738,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - SSIM",
+            "value": 0.8667,
             "unit": ""
           }
         ]
