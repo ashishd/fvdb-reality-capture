@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775735699462,
+  "lastUpdate": 1775747170441,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -11178,6 +11178,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - PSNR",
             "value": 27.764,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - SSIM",
+            "value": 0.8669,
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "c6d56fc0872fe8c5cd9cc3237eb292e57c33de53",
+          "message": "Fix nightly benchmark artifact download JSONDecodeError (#278)",
+          "timestamp": "2026-04-09T09:07:53Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/c6d56fc0872fe8c5cd9cc3237eb292e57c33de53"
+        },
+        "date": 1775747169886,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.136,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7447,
+            "unit": ""
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - PSNR",
+            "value": 24.984,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - SSIM",
+            "value": 0.7306,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.513,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.956,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - PSNR",
+            "value": 32.802,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - SSIM",
+            "value": 0.959,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.649,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8654,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_mcmc - PSNR",
+            "value": 27.735,
             "unit": "dB"
           },
           {
