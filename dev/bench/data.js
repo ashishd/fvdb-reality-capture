@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776265612887,
+  "lastUpdate": 1776265620344,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -14707,6 +14707,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - training_time",
             "value": 852.08,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 3.6424,
+            "unit": "GB"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "6025c81c2be3d1d72dd6eca5b61ef3f5cbe94d97",
+          "message": "Fix crash when accumulated_gradient_step_counts is None during refinement (#281)\n\n## Summary\n- Add defensive None guard in `_compute_insertion_masks` to handle the\ncase where gradient accumulation tensors are `None` (e.g., when using\nthe Unscented Transform projection path for OpenCV camera models)\n- Add regression test that reproduces the exact `AttributeError` from\nissue #279\n\n## Root Cause\n\nWhen COLMAP datasets use non-pinhole camera models (SIMPLE_RADIAL,\nRADIAL, OPENCV), fvdb maps them to `CameraModel.OPENCV_RADTAN_5`, which\nforces the UT projection path in fvdb-core. The UT path does not\ninitialize `accumulated_gradient_step_counts` or\n`accumulated_mean_2d_gradient_norms`, leaving them as `None`. At the\nfirst refinement step, `_compute_insertion_masks()` crashes calling\n`.clamp_min(1)` on `None`.\n\nThe companion fvdb-core fix is at harrism/fvdb-core#1 — these two fixes\nare independent and can be merged in any order.\n\n## Behavioral impact\n\nWhen the UT projection path is used, no Gaussians will be duplicated or\nsplit during refinement (since no gradient data is available to make\nthat decision). Deletion still works. Training converges, just without\nadaptive densification — a reasonable degradation until fvdb-core adds\ngradient accumulation to the UT kernel.\n\nCloses #279\n\n## Test plan\n- [x] New test `test_refinement_with_none_gradient_accumulation`\nreproduces the crash (red before fix, green after)\n- [x] All 9 optimizer tests pass with zero regressions\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\n---------\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-04-15T06:23:29Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/6025c81c2be3d1d72dd6eca5b61ef3f5cbe94d97"
+        },
+        "date": 1776265619908,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 960.7,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.4321,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 475.72,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5065,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 557.51,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.5921,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 747.8,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5636,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1067.96,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.4758,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 880.94,
             "unit": "seconds"
           },
           {
