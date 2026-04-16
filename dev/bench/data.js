@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776340654355,
+  "lastUpdate": 1776352109289,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -12228,6 +12228,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - SSIM",
             "value": 0.8667,
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "6025c81c2be3d1d72dd6eca5b61ef3f5cbe94d97",
+          "message": "Fix crash when accumulated_gradient_step_counts is None during refinement (#281)\n\n## Summary\n- Add defensive None guard in `_compute_insertion_masks` to handle the\ncase where gradient accumulation tensors are `None` (e.g., when using\nthe Unscented Transform projection path for OpenCV camera models)\n- Add regression test that reproduces the exact `AttributeError` from\nissue #279\n\n## Root Cause\n\nWhen COLMAP datasets use non-pinhole camera models (SIMPLE_RADIAL,\nRADIAL, OPENCV), fvdb maps them to `CameraModel.OPENCV_RADTAN_5`, which\nforces the UT projection path in fvdb-core. The UT path does not\ninitialize `accumulated_gradient_step_counts` or\n`accumulated_mean_2d_gradient_norms`, leaving them as `None`. At the\nfirst refinement step, `_compute_insertion_masks()` crashes calling\n`.clamp_min(1)` on `None`.\n\nThe companion fvdb-core fix is at harrism/fvdb-core#1 — these two fixes\nare independent and can be merged in any order.\n\n## Behavioral impact\n\nWhen the UT projection path is used, no Gaussians will be duplicated or\nsplit during refinement (since no gradient data is available to make\nthat decision). Deletion still works. Training converges, just without\nadaptive densification — a reasonable degradation until fvdb-core adds\ngradient accumulation to the UT kernel.\n\nCloses #279\n\n## Test plan\n- [x] New test `test_refinement_with_none_gradient_accumulation`\nreproduces the crash (red before fix, green after)\n- [x] All 9 optimizer tests pass with zero regressions\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\n---------\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-04-15T06:23:29Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/6025c81c2be3d1d72dd6eca5b61ef3f5cbe94d97"
+        },
+        "date": 1776352108791,
+        "tool": "customBiggerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - PSNR",
+            "value": 25.121,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_default - SSIM",
+            "value": 0.7442,
+            "unit": ""
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - PSNR",
+            "value": 24.991,
+            "unit": "dB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - SSIM",
+            "value": 0.7305,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_default - PSNR",
+            "value": 32.565,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_default - SSIM",
+            "value": 0.9566,
+            "unit": ""
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - PSNR",
+            "value": 32.753,
+            "unit": "dB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - SSIM",
+            "value": 0.9589,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_default - PSNR",
+            "value": 27.639,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_default - SSIM",
+            "value": 0.8651,
+            "unit": ""
+          },
+          {
+            "name": "garden/fvdb_mcmc - PSNR",
+            "value": 27.767,
+            "unit": "dB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - SSIM",
+            "value": 0.867,
             "unit": ""
           }
         ]
