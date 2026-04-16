@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776265620344,
+  "lastUpdate": 1776340654355,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -9424,6 +9424,133 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00040029303108114793",
             "extra": "mean: 25.66554720928527 msec\nrounds: 43"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Mark Harris",
+            "username": "harrism",
+            "email": "mharris@nvidia.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "6025c81c2be3d1d72dd6eca5b61ef3f5cbe94d97",
+          "message": "Fix crash when accumulated_gradient_step_counts is None during refinement (#281)\n\n## Summary\n- Add defensive None guard in `_compute_insertion_masks` to handle the\ncase where gradient accumulation tensors are `None` (e.g., when using\nthe Unscented Transform projection path for OpenCV camera models)\n- Add regression test that reproduces the exact `AttributeError` from\nissue #279\n\n## Root Cause\n\nWhen COLMAP datasets use non-pinhole camera models (SIMPLE_RADIAL,\nRADIAL, OPENCV), fvdb maps them to `CameraModel.OPENCV_RADTAN_5`, which\nforces the UT projection path in fvdb-core. The UT path does not\ninitialize `accumulated_gradient_step_counts` or\n`accumulated_mean_2d_gradient_norms`, leaving them as `None`. At the\nfirst refinement step, `_compute_insertion_masks()` crashes calling\n`.clamp_min(1)` on `None`.\n\nThe companion fvdb-core fix is at harrism/fvdb-core#1 — these two fixes\nare independent and can be merged in any order.\n\n## Behavioral impact\n\nWhen the UT projection path is used, no Gaussians will be duplicated or\nsplit during refinement (since no gradient data is available to make\nthat decision). Deletion still works. Training converges, just without\nadaptive densification — a reasonable degradation until fvdb-core adds\ngradient accumulation to the UT kernel.\n\nCloses #279\n\n## Test plan\n- [x] New test `test_refinement_with_none_gradient_accumulation`\nreproduces the crash (red before fix, green after)\n- [x] All 9 optimizer tests pass with zero regressions\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\n---------\n\nSigned-off-by: Mark Harris <mharris@nvidia.com>\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-04-15T06:23:29Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/6025c81c2be3d1d72dd6eca5b61ef3f5cbe94d97"
+        },
+        "date": 1776340653620,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00000664]",
+            "value": 7901.088408562392,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000008597590783443773",
+            "extra": "mean: 126.5648412333043 usec\nrounds: 6941"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00000664]",
+            "value": 537.3137061626713,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00009072046672428118",
+            "extra": "mean: 1.8611101643799326 msec\nrounds: 657"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00000664]",
+            "value": 502.53337357279986,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000027259810084654848",
+            "extra": "mean: 1.9899175907272044 msec\nrounds: 496"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00000664]",
+            "value": 185.06171785979578,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00005286141023253448",
+            "extra": "mean: 5.40360270921946 msec\nrounds: 987"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00006640]",
+            "value": 306.3073548605618,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003536659307172919",
+            "extra": "mean: 3.26469470658066 msec\nrounds: 3374"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00006640]",
+            "value": 74.79491380069564,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00011049380932232002",
+            "extra": "mean: 13.369893074075573 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00006640]",
+            "value": 60.49580555166075,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00011316201385144236",
+            "extra": "mean: 16.530071645149746 msec\nrounds: 62"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00006640]",
+            "value": 25.27099769040078,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00033057901858088304",
+            "extra": "mean: 39.57105343647953 msec\nrounds: 614"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00016600]",
+            "value": 250.4358502606199,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00045099111946848516",
+            "extra": "mean: 3.993038532459848 msec\nrounds: 3127"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00016600]",
+            "value": 45.4389557170439,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000456316002086049",
+            "extra": "mean: 22.007548021727654 msec\nrounds: 46"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00016600]",
+            "value": 38.53860826677901,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003338501233011766",
+            "extra": "mean: 25.948005000014973 msec\nrounds: 40"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00016600]",
+            "value": 18.621428754811014,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000614361556065294",
+            "extra": "mean: 53.701572160065375 msec\nrounds: 581"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00000664]",
+            "value": 501.90758013285495,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006223737943406211",
+            "extra": "mean: 1.9923986797236652 msec\nrounds: 587"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00006640]",
+            "value": 60.36911453451938,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0002610734424449595",
+            "extra": "mean: 16.564761761218058 msec\nrounds: 67"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00016600]",
+            "value": 38.73914061370431,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00045592516097968323",
+            "extra": "mean: 25.813685697669843 msec\nrounds: 43"
           }
         ]
       }
