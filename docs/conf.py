@@ -23,6 +23,9 @@ author = "Contributors to the OpenVDB Project"
 # Updated automatically by fvdb-core's devtools/update-doc-versions.sh during release.
 fvdb_core_stable_version = "0.4.0"
 
+version = fvdb_core_stable_version
+release = fvdb_core_stable_version
+
 rst_prolog = f"""\
 .. |fvdb_core_version_pt210_cu128| replace:: {fvdb_core_stable_version}+pt210.cu128
 .. |fvdb_core_version_pt210_cu130| replace:: {fvdb_core_stable_version}+pt210.cu130
@@ -68,6 +71,31 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "wip"]
 
 autodoc_default_options = {"undoc-members": "forward, extra_repr"}
 
+# Mock compiled / GPU / heavy dependencies so Sphinx can introspect the
+# Python API on build hosts that lack CUDA (e.g. Read the Docs).
+autodoc_mock_imports = [
+    "_fvdb_cpp",
+    "boto3",
+    "botocore",
+    "cv2",
+    "dlnr_lite",
+    "fvdb",
+    "msgpack",
+    "numpy",
+    "point_cloud_utils",
+    "pxr",
+    "pye57",
+    "pyproj",
+    "requests",
+    "sam2",
+    "scipy",
+    "skimage",
+    "torch",
+    "torchvision",
+    "tqdm",
+    "tyro",
+]
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -76,13 +104,20 @@ autodoc_default_options = {"undoc-members": "forward, extra_repr"}
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {"analytics_id": "G-60P7VJJ09C"}  # Google Analytics ID
 
+html_context = {
+    "display_github": True,
+    "github_user": "openvdb",
+    "github_repo": "fvdb-reality-capture",
+    "github_version": "main",
+    "conf_py_path": "/docs/",
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = [
     "tutorials/radiance_field_and_mesh_reconstruction_files",
     "tutorials/sensor_data_loading_and_manipulation_files",
-    "CNAME",
     "_static",
 ]
 html_css_files = [
@@ -92,9 +127,6 @@ html_css_files = [
 myst_heading_anchors = 3
 
 # -- Custom hooks ------------------------------------------------------------
-
-print("SYS EXECUTABLE", sys.executable)
-print("SYS PATH", sys.path)
 
 
 def process_signature(app, what, name, obj, options, signature, return_annotation):
