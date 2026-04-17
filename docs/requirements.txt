@@ -1,4 +1,28 @@
+# Pull CPU-only PyTorch wheels from PyTorch's dedicated index. The "+cpu"
+# local version pin is what selects the CPU variant unambiguously: PyPI's
+# Linux "torch" wheels are 2.8.0 (CUDA-bundled, ~900 MB) while PyTorch's
+# CPU index has 2.8.0+cpu. Everything else resolves from the default PyPI.
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 sphinx>=7.0.0
 sphinx-rtd-theme
 myst-parser
 linkify-it-py
+
+# Runtime deps imported by fvdb_reality_capture. Installing them (instead of
+# adding them to autodoc_mock_imports in conf.py) lets Sphinx autodoc
+# introspect real classes, which avoids PEP 604 "X | None" failures caused by
+# mock objects. Anything CUDA-compiled and not redistributed on PyPI (fvdb,
+# _fvdb_cpp, ...) or not on PyPI at all (dlnr_lite, sam2, ...) stays mocked.
+boto3
+msgpack
+numpy
+opencv-python-headless
+pyproj
+requests
+scikit-image
+scipy
+torch==2.8.0+cpu
+torchvision==0.23.0+cpu
+tqdm
+tyro

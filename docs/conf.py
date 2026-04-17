@@ -73,27 +73,20 @@ autodoc_default_options = {"undoc-members": "forward, extra_repr"}
 
 # Mock compiled / GPU / heavy dependencies so Sphinx can introspect the
 # Python API on build hosts that lack CUDA (e.g. Read the Docs).
+#
+# Everything that is pure-Python or installs cleanly from PyPI is pip-installed
+# via docs/requirements.txt instead of mocked. Mocked modules become
+# sphinx _MockObject instances, which do NOT support PEP 604 unions
+# ("Foo | None" -> TypeError: unsupported operand type(s) for |: 'Foo' and
+# 'NoneType'); installing the real package avoids that class of failure.
 autodoc_mock_imports = [
     "_fvdb_cpp",
-    "boto3",
-    "botocore",
-    "cv2",
     "dlnr_lite",
     "fvdb",
-    "msgpack",
-    "numpy",
     "point_cloud_utils",
     "pxr",
     "pye57",
-    "pyproj",
-    "requests",
     "sam2",
-    "scipy",
-    "skimage",
-    "torch",
-    "torchvision",
-    "tqdm",
-    "tyro",
 ]
 
 # -- Options for HTML output -------------------------------------------------
