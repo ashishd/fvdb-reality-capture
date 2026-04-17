@@ -66,7 +66,7 @@ frc.tools.download_example_data(dataset="safety_park", download_path="./data")
 
 ## Load our dataset into an `SfmScene` for reconstruction
 
-Reality capture is the process of creating digital 3D representations of real-world scenes from sensor data, like images and LiDAR. To represent captured sensor data, `fvdb_reality_capture`  makes use of the `SfmScene` class, which is a lightweight handle to sensor data stored on disk. `SfmScene` offers a wide range of features for efficiently transforming large-scale datasets, some of which we'll see below. For a detailed tutorial, see the [Loading and Manipulating Sensor Data](https://openvdb.github.io/fvdb-reality-capture/tutorials/sensor_data_loading_and_manipulation.html) tutorial.
+Reality capture is the process of creating digital 3D representations of real-world scenes from sensor data, like images and LiDAR. To represent captured sensor data, `fvdb_reality_capture`  makes use of the `SfmScene` class, which is a lightweight handle to sensor data stored on disk. `SfmScene` offers a wide range of features for efficiently transforming large-scale datasets, some of which we'll see below. For a detailed tutorial, see the [Loading and Manipulating Sensor Data](https://fvdb-reality-capture.readthedocs.io/tutorials/sensor_data_loading_and_manipulation.html) tutorial.
 
 An `SfmScene` consists of the following parts representing a scene captured with sensors:
  1. A list of **Posed images**.
@@ -255,7 +255,7 @@ In the code above, we defined our cleanup operation as a sequence of transformat
  3. `PercentileFilterPoints(percentile_min=3.0, percentile_max=97.0)` to remove points in the bottom 3rd and top 97th percentiles along each axis.
  4. `FilterImagesWithLowPoints(min_num_points=50)` to remove posed images which have 50 or viewer visible points.
 
-**Note:** `fvdb_reality_capture` provides more transforms and also lets you define your own transforms. See the API reference for `fvdb_reality_capture.transforms` and the the [Loading and Manipulating Sensor Data](https://openvdb.github.io/fvdb-reality-capture/tutorials/sensor_data_loading_and_manipulation.html) tutorial for more details.
+**Note:** `fvdb_reality_capture` provides more transforms and also lets you define your own transforms. See the API reference for `fvdb_reality_capture.transforms` and the the [Loading and Manipulating Sensor Data](https://fvdb-reality-capture.readthedocs.io/tutorials/sensor_data_loading_and_manipulation.html) tutorial for more details.
 
 **Note:** The `fvdb_reality_capture.transforms` module does not modify the underlying dataset that you pass in or store transformed data in memory.
 Instead, it uses a cache which lets each transform cache intermediate results. This keeps `SfmScene`s lightweight and immutable, and

@@ -356,7 +356,7 @@ These include operations to downsample images, normalize the scene, crop the sce
 
 Transforms in `fvdb_reality_capture` allow for modular and composable data transformation without modifying the underlying dataset on disk. Moreover, transforms make use of a cache to store any intermediate results that are expensive to compute. This means that applying the same transformation twice (even across processes) will only perform expensive computation once. It also means that transforms do not need to materialize an entire dataset in memory (which is often not possible due to memory limitations).
 
-Let's look at some of the built in transforms in the `fvdb_reality_capture.transforms` module. For a full list of built-in transforms, see the [`fvdb_reality_capture.transforms` documentation](https://openvdb.github.io/fvdb-reality-capture/api/transforms.html).
+Let's look at some of the built in transforms in the `fvdb_reality_capture.transforms` module. For a full list of built-in transforms, see the [`fvdb_reality_capture.transforms` documentation](https://fvdb-reality-capture.readthedocs.io/api/transforms.html).
 
 ### Downsampling Images in an `SfmScene`
 You can downsample images in an `SfmScene` using the `fvdb_reality_capture.transforms.DownsampleImages`. This transform will resize each image in the dataset to a fraction of its original size. It will cache the resulting images with a key that depends on the scaling factor, downsampling method, and image type (*e.g.* whether you save `.png` or `.jpg` downsampled images) which will resize the images and cache them.
