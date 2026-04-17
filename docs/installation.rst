@@ -1,7 +1,7 @@
 Installing fVDB-Reality-Capture
 ================================================================
 
-fVDB-Reality-Capture depends on `fVDB <https://fvdb.ai>`_ which in turn depends on `PyTorch <https://pytorch.org/>`_,
+fVDB-Reality-Capture depends on `fVDB <https://fvdb-core.readthedocs.io>`_ which in turn depends on `PyTorch <https://pytorch.org/>`_,
 and requires a CUDA-capable GPU. Below are the supported sofware and hardware configurations.
 
 Software Requirements

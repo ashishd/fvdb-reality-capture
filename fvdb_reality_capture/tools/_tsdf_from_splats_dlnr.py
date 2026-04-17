@@ -533,7 +533,7 @@ def tsdf_from_splats_dlnr(
         This algorithm implemented is based on the paper
         `"GS2Mesh: Surface Reconstruction from Gaussian Splatting via Novel Stereo Views" <https://arxiv.org/abs/2404.01810>`_.
         We make key improvements to the method by using a more robust stereo baseline estimation method and by using a much
-        more efficient sparse TSDF fusion implementation built on `fVDB <https://openvdb.github.io/fvdb>`_.
+        more efficient sparse TSDF fusion implementation built on `fVDB <https://fvdb-core.readthedocs.io>`_.
 
     .. note::
 
