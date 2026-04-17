@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776352111335,
+  "lastUpdate": 1776426700961,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -9551,6 +9551,133 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00045592516097968323",
             "extra": "mean: 25.813685697669843 msec\nrounds: 43"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Jonathan Swartz",
+            "username": "swahtz",
+            "email": "jonathan@jswartz.info"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "9e1f037d652e1036a5758a6e873043e2c2e69f68",
+          "message": "Configuration for Read the Docs (#284)\n\nThis pull request introduces configuration and documentation\nimprovements to support building the documentation with Read the Docs.\n\n**Read the Docs integration and documentation build improvements:**\n\n* Added a `.readthedocs.yaml` configuration file to enable building\ndocumentation on Read the Docs using Ubuntu 24.04 and Python 3.12, and\nto specify Sphinx and Python requirements.\n* Created `docs/requirements.txt` to list Sphinx and related\ndocumentation dependencies, ensuring consistent builds locally and on\nRead the Docs.\n\n**Sphinx configuration enhancements:**\n\n* Updated `docs/conf.py` to set `version` and `release` dynamically from\nthe stable version, and added `autodoc_mock_imports` to mock heavy or\nunavailable dependencies (e.g., CUDA, compiled modules) so Sphinx can\ngenerate API docs even if those dependencies are not present.\n[[1]](diffhunk://#diff-85933aa74a2d66c3e4dcdf7a9ad8397f5a7971080d34ef1108296a7c6b69e7e3R26-R28)\n[[2]](diffhunk://#diff-85933aa74a2d66c3e4dcdf7a9ad8397f5a7971080d34ef1108296a7c6b69e7e3R74-R98)\n* Added `html_context` to `docs/conf.py` to enable GitHub integration in\nthe generated docs, and removed `CNAME` from `html_static_path` because\nwe no longer use the fvdb.ai domain.\n* Cleaned up debug print statements from `docs/conf.py` for a cleaner\nbuild process.\n\n**Other documentation cleanup:**\n\n* Removed the custom domain configuration from `docs/CNAME`, we don't\nuse the fvdb.ai domain any longer.\n\n---------\n\nSigned-off-by: Jonathan Swartz <jonathan@jswartz.info>",
+          "timestamp": "2026-04-17T04:48:00Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/9e1f037d652e1036a5758a6e873043e2c2e69f68"
+        },
+        "date": 1776426700323,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00000664]",
+            "value": 7269.5051681508685,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000009038925361085159",
+            "extra": "mean: 137.56094491564525 usec\nrounds: 6027"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00000664]",
+            "value": 553.2641264455377,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0000637986329094522",
+            "extra": "mean: 1.8074549789167256 msec\nrounds: 664"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00000664]",
+            "value": 518.9588413530095,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000022118062966621562",
+            "extra": "mean: 1.9269350867842212 msec\nrounds: 507"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00000664]",
+            "value": 192.21494601007228,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000043648942540546926",
+            "extra": "mean: 5.202509069963783 msec\nrounds: 829"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00006640]",
+            "value": 306.7781526863421,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000360533623708398",
+            "extra": "mean: 3.259684535040622 msec\nrounds: 3239"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00006640]",
+            "value": 77.00354644363644,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00016567162801799313",
+            "extra": "mean: 12.98641486248897 msec\nrounds: 80"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00006640]",
+            "value": 61.991808402465566,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00015801380993381813",
+            "extra": "mean: 16.131163548379845 msec\nrounds: 62"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00006640]",
+            "value": 25.959611700310113,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003007358580755076",
+            "extra": "mean: 38.52137742060503 msec\nrounds: 592"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_project_gaussians[garden-00016600]",
+            "value": 249.84760635797372,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004356181918105403",
+            "extra": "mean: 4.002439785503615 msec\nrounds: 3380"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_render_gaussians[garden-00016600]",
+            "value": 47.07886504180138,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005087509168989765",
+            "extra": "mean: 21.240953857152224 msec\nrounds: 49"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward[garden-00016600]",
+            "value": 39.61409250425418,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003124325349339507",
+            "extra": "mean: 25.243541799994773 msec\nrounds: 40"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_backward[garden-00016600]",
+            "value": 19.11856864615574,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008741034709463782",
+            "extra": "mean: 52.30517087904877 msec\nrounds: 587"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00000664]",
+            "value": 504.63241084208164,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00005909230134363961",
+            "extra": "mean: 1.9816404545465023 msec\nrounds: 583"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00006640]",
+            "value": 61.59198832821205,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0002457399821611898",
+            "extra": "mean: 16.235877865659887 msec\nrounds: 67"
+          },
+          {
+            "name": "tests/benchmarks/test_3dgs.py::test_forward_mcmc[garden-00016600]",
+            "value": 39.713775358488654,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00036254777752865253",
+            "extra": "mean: 25.180179697678984 msec\nrounds: 43"
           }
         ]
       }
