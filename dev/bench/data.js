@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776438061524,
+  "lastUpdate": 1776438068537,
   "repoUrl": "https://github.com/openvdb/fvdb-reality-capture",
   "entries": {
     "fvdb-reality-capture Benchmark with pytest-benchmark": [
@@ -15294,6 +15294,88 @@ window.BENCHMARK_DATA = {
           {
             "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
             "value": 3.6423,
+            "unit": "GB"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Jonathan Swartz",
+            "username": "swahtz",
+            "email": "jonathan@jswartz.info"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "9e1f037d652e1036a5758a6e873043e2c2e69f68",
+          "message": "Configuration for Read the Docs (#284)\n\nThis pull request introduces configuration and documentation\nimprovements to support building the documentation with Read the Docs.\n\n**Read the Docs integration and documentation build improvements:**\n\n* Added a `.readthedocs.yaml` configuration file to enable building\ndocumentation on Read the Docs using Ubuntu 24.04 and Python 3.12, and\nto specify Sphinx and Python requirements.\n* Created `docs/requirements.txt` to list Sphinx and related\ndocumentation dependencies, ensuring consistent builds locally and on\nRead the Docs.\n\n**Sphinx configuration enhancements:**\n\n* Updated `docs/conf.py` to set `version` and `release` dynamically from\nthe stable version, and added `autodoc_mock_imports` to mock heavy or\nunavailable dependencies (e.g., CUDA, compiled modules) so Sphinx can\ngenerate API docs even if those dependencies are not present.\n[[1]](diffhunk://#diff-85933aa74a2d66c3e4dcdf7a9ad8397f5a7971080d34ef1108296a7c6b69e7e3R26-R28)\n[[2]](diffhunk://#diff-85933aa74a2d66c3e4dcdf7a9ad8397f5a7971080d34ef1108296a7c6b69e7e3R74-R98)\n* Added `html_context` to `docs/conf.py` to enable GitHub integration in\nthe generated docs, and removed `CNAME` from `html_static_path` because\nwe no longer use the fvdb.ai domain.\n* Cleaned up debug print statements from `docs/conf.py` for a cleaner\nbuild process.\n\n**Other documentation cleanup:**\n\n* Removed the custom domain configuration from `docs/CNAME`, we don't\nuse the fvdb.ai domain any longer.\n\n---------\n\nSigned-off-by: Jonathan Swartz <jonathan@jswartz.info>",
+          "timestamp": "2026-04-17T04:48:00Z",
+          "url": "https://github.com/openvdb/fvdb-reality-capture/commit/9e1f037d652e1036a5758a6e873043e2c2e69f68"
+        },
+        "date": 1776438068128,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "bicycle/fvdb_default - training_time",
+            "value": 940.44,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_default - peak_gpu_memory_gb",
+            "value": 4.4454,
+            "unit": "GB"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - training_time",
+            "value": 461.81,
+            "unit": "seconds"
+          },
+          {
+            "name": "bicycle/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5091,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_default - training_time",
+            "value": 536.45,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_default - peak_gpu_memory_gb",
+            "value": 1.5868,
+            "unit": "GB"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - training_time",
+            "value": 725.82,
+            "unit": "seconds"
+          },
+          {
+            "name": "bonsai/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 1.5639,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_default - training_time",
+            "value": 1059.71,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_default - peak_gpu_memory_gb",
+            "value": 5.5191,
+            "unit": "GB"
+          },
+          {
+            "name": "garden/fvdb_mcmc - training_time",
+            "value": 860.76,
+            "unit": "seconds"
+          },
+          {
+            "name": "garden/fvdb_mcmc - peak_gpu_memory_gb",
+            "value": 3.6454,
             "unit": "GB"
           }
         ]
