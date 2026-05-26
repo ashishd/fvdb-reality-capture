@@ -12,6 +12,7 @@ import torch.utils.data
 import torchvision
 
 from fvdb_reality_capture.sfm_scene import (
+    DepthMapAttribute,
     PerImageRasterAttribute,
     PerImageValueAttribute,
     SfmCameraMetadata,
@@ -69,6 +70,8 @@ class SfmDataset(torch.utils.data.Dataset, Iterable):
             "projection",
             "camera_to_world",
             "world_to_camera",
+            "camera_model",
+            "distortion_coeffs",
             "image",
             "image_id",
             "image_path",
@@ -78,12 +81,29 @@ class SfmDataset(torch.utils.data.Dataset, Iterable):
             "sparse_depth",
             "sparse_depth_uv",
         }
+        # Validate that every key each attribute will emit into the datum dict is
+        # unique -- both against the reserved dataset keys and against keys emitted by
+        # other requested attributes. A DepthMapAttribute emits both `<name>` and
+        # `<name>_valid`, so e.g. requesting both "depth" and "depth_valid" would have
+        # the former clobber the latter in __getitem__.
+        emitted_by: dict[str, str] = {}
         for name in self._load_attributes:
-            if name in _RESERVED_KEYS:
-                raise ValueError(
-                    f"Attribute name '{name}' collides with a reserved dataset key. "
-                    f"Reserved keys: {sorted(_RESERVED_KEYS)}"
-                )
+            attr = self._sfm_scene.get_attribute(name)  # raises KeyError if not registered
+            keys = [name]
+            if isinstance(attr, DepthMapAttribute):
+                keys.append(f"{name}_valid")
+            for key in keys:
+                if key in _RESERVED_KEYS:
+                    raise ValueError(
+                        f"Attribute '{name}' would emit dataset key '{key}', which collides with a "
+                        f"reserved dataset key. Reserved keys: {sorted(_RESERVED_KEYS)}"
+                    )
+                if key in emitted_by:
+                    raise ValueError(
+                        f"Attribute '{name}' would emit dataset key '{key}', which is already emitted "
+                        f"by attribute '{emitted_by[key]}'. Rename one of the attributes to avoid the collision."
+                    )
+                emitted_by[key] = name
 
         # If you specified image indices, we'll filter the dataset to only include those images.
         if dataset_indices is None:
@@ -378,7 +398,16 @@ class SfmDataset(torch.utils.data.Dataset, Iterable):
 
         for attr_name in self._load_attributes:
             attr = self._sfm_scene.get_attribute(attr_name)
-            if isinstance(attr, PerImageRasterAttribute):
+            if isinstance(attr, DepthMapAttribute):
+                depth_np, valid_np = attr.load_depth(index)
+                depth = torch.from_numpy(depth_np).contiguous()
+                valid = torch.from_numpy(valid_np).contiguous()
+                if self.patch_size is not None:
+                    depth = depth[y : y + self.patch_size, x : x + self.patch_size]
+                    valid = valid[y : y + self.patch_size, x : x + self.patch_size]
+                data[attr_name] = depth
+                data[f"{attr_name}_valid"] = valid
+            elif isinstance(attr, PerImageRasterAttribute):
                 path = attr.paths[index]
                 if path.endswith(".npy"):
                     raster = torch.from_numpy(np.load(path))
