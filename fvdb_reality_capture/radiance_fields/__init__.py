@@ -2,6 +2,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+from .gaussian_splatting import (
+    GaussianSplat3d,
+    ProjectedGaussianSplats,
+    evaluate_spherical_harmonics,
+    gaussian_render_jagged,
+)
+from ._gaussian_splat_viz import gaussian_splat_to_view_data
 from .gaussian_splat_dataset import SfmDataset
 from .gaussian_splat_optimizer import (
     BaseGaussianSplatOptimizer,
@@ -25,6 +32,11 @@ from .gaussian_splat_reconstruction_writer import (
 )
 
 __all__ = [
+    "GaussianSplat3d",
+    "ProjectedGaussianSplats",
+    "gaussian_render_jagged",
+    "evaluate_spherical_harmonics",
+    "gaussian_splat_to_view_data",
     "GaussianSplatReconstructionBaseWriter",
     "GaussianSplatReconstructionWriter",
     "GaussianSplatReconstructionWriterConfig",
